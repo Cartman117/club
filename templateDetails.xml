@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
+<extension
+	version="2.5"
+	type="template"
+	client="site">
+	<name>club</name>
+	<creationDate>02 December 2012</creationDate>
+	<author>Nicolas Bascon / Kevin Pignot</author>
+	<authorEmail>mail</authorEmail>
+	<authorUrl>url</authorUrl>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<version>2.5.0</version>
+	<description>TPL_CLUB_XML_DESCRIPTION</description>
+	<files>
+		<folder>html</folder>
+		<folder>css</folder>
+		<folder>images</folder>
+		<folder>language</folder>
+		<folder>js</folder>
+		<filename>index.php</filename>
+		<filename>index.html</filename>
+		<filename>favicon.ico</filename>
+		<filename>templateDetails.xml</filename>
+		<filename>template_preview.png</filename>
+		<filename>template_thumbnail.png</filename>
+		<filename>component.php</filename>
+		<filename>error.php</filename>
+	</files>
+
+	<positions>
+		<position>club-bottomleft</position>
+		<position>club-bottommiddle</position>
+		<position>club-search</position>
+		<position>club-sidebar</position>
+		<position>club-topmenu</position>
+		<position>club-topquote</position>
+		<position>club-login</position>
+		<position>club-article</position>
+		<position>club-accueil-presentation</position>
+		<position>club-accueil-competitions</position>
+		<position>club-accueil-news</position>
+	</positions>
+
+	
+		<config>
+		<fields name="params">
+			<fieldset name="advanced">
+				<field name="logo" type="media"
+					label="TPL_CLUB_FIELD_LOGO_LABEL" description="TPL_CLUB_FIELD_LOGO_DESC" />
+				<field name="sitetitle"  type="text" default=""
+					label="TPL_CLUB_FIELD_SITETITLE_LABEL"
+					description="TPL_CLUB_FIELD_SITETITLE_DESC"
+					filter="string" />
+			</fieldset>
+		</fields>
+	</config>
+	<!-- 	For core templates, we also install/uninstall the language files in the core language folders.
+	-->
+	<languages folder="language">
+		<language tag="fr-FR">fr-FR/fr-FR.tpl_club.ini</language>
+		<language tag="fr-FR">fr-FR/fr-FR.tpl_club.sys.ini</language>
+		<language tag="en-GB">en-GB/en-GB.tpl_club.ini</language>
+		<language tag="en-GB">en-GB/en-GB.tpl_club.sys.ini</language>
+	</languages>
+
+</extension>
