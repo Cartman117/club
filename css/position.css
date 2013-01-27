@@ -78,3 +78,36 @@
 {
 	margin:auto;
 }
+
+/* ### Le positionnement de tous les articles ### */
+
+/* ### Les articles présentation de la page d'accueil ### */
+#accueilPresentation
+{
+	float:left;
+	width:465px;
+	background-color:green;
+	border: solid 6px;
+	margin : 15px;
+	margin-right : 5px;
+}
+
+/* ### Les articles compétitions de la page d'accueil ### */
+#accueilCompetitions
+{
+	float:right;
+	width:465px;
+	background-color:red;
+	border: solid 6px;
+	margin : 15px;
+	margin-left : 5px;
+}
+
+/* ### Les articles nouveautés de la page d'accueil ### */
+#accueilNouveautes
+{
+	clear:both;
+	background-color:grey;
+	border: solid 6px;
+	margin : 15px;
+}
