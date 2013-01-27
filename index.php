@@ -68,9 +68,32 @@ $templateparams = $app->getTemplate(true)->params;
                 
                 <!-- Conteneur global du site -->
 				<div id="globalContainer">
-                   	<?php if($this->countModules('club-article')) : ?>
-					<jdoc:include type="modules" name="club-article" style="container" />
-					<?php endif; ?>
+                		
+                			<!-- Pour l'affichage de la présentation sur la page d'accueil du site -->
+                   			<?php if($this->countModules('club-accueil-presentation')) : ?>
+                    			<div id="accueilPresentation">
+                    				<jdoc:include type="modules" name="club-accueil-presentation" style="container" />
+                  			  </div>
+					<?php endif; ?>  
+                    
+			                <!-- Pour l'affichage des compétitions sur la page d'accueil du site -->
+			                <?php if($this->countModules('club-accueil-competitions')) : ?>
+			                <div id="accueilCompetitions">
+				        	<jdoc:include type="modules" name="club-accueil-competitions" style="container" />
+			                </div>
+			                <?php endif; ?>
+		                        
+		                        <!-- Pour l'affichage des nouveautés sur la page d'accueil du site -->
+		                        <?php if($this->countModules('club-accueil-nouveautes')) : ?>
+		                        <div id="accueilNouveautes">
+			                	<jdoc:include type="modules" name="club-accueil-nouveautes" style="container" />
+		    			</div>
+		                        <?php endif; ?>
+                    
+                    			<!-- Pour l'affichage des articles sur les autres pages (pas encore fini) -->
+                  			<?php if($this->countModules('club-article')) : ?>
+          					<jdoc:include type="modules" name="club-article" style="container" />
+         				<?php endif; ?>
 				</div>
                 <!-- Fin du Conteneur global -->
         	</div>
@@ -78,7 +101,9 @@ $templateparams = $app->getTemplate(true)->params;
         <!-- Footer du site -->
         <div id="footer">
             <div id="logos">
-            	<img src="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/logo-fftri.bmp" alt="Fédération Française de Triathlon" height="62" width="70"/>
+            	<a href="http://www.fftri.com/">
+              		<img src="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/logo-fftri.bmp" alt="Fédération Française de Triathlon" height="62" width="70"/>
+            	</a>
             </div>
             <!-- Joomla-->
         	<div id="joomla">
