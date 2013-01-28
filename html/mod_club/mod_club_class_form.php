@@ -1,11 +1,11 @@
 <?php
 	class Form
 	{
-		var $tableauMois = array("Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre");
-		var $tableauJours = array("Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche");
+		private static $tableauMois = array("Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre");
+		private static $tableauJours = array("Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche");
 		
          /* Constructeur de la classe Form qui permet de créer un formulaire */
-		 public function __construct($action = NULL, $method)
+		 public static function openForm($action = NULL, $method)
 		 {
 			 if($method == NULL)
 				 echo'Formulaire impossible à créer';
@@ -17,7 +17,7 @@
 			@param type Le type du input.
 			@param labelValue La valeur du label, si l'on souhaite afficher un label devant l'input.
 		 */
-		 public function openInput($name, $type, $labelValue = NULL, $inputValue = NULL, $maxLength = NULL)
+		 public static function openInput($name, $type, $labelValue = NULL, $inputValue = NULL, $maxLength = NULL)
 		 {
 			if($name == NULL or $type==NULL)
 				echo'Veuillez indiquer le nom et le type du input';
@@ -44,7 +44,7 @@
 			@param required Boolean rendant obligatoire ou non l'input.
 			@param br Effectuer un saut de ligne en fin d'input.
 		 */
-		 public function closeInput($required = FALSE, $br = FALSE)
+		 public static function closeInput($required = FALSE, $br = FALSE)
 		 {
 			if($required)
 				echo' required="required"';
@@ -58,20 +58,20 @@
 		 /*
 		 
 		 */
-		 public function addRadioButton($name, $value, $javascriptName = NULL)
+		 public static function addRadioButton($name, $value, $javascriptName = NULL)
 		 {
-			 $this->openInput($name, "radio", NULL ,$value);
+			Form::openInput($name, "radio", NULL ,$value);
 			 
 			 if($javascriptName != NULL)
 				 echo" onClick=\"".$javascriptName."\"";
 				 
-			 $this->closeInput();
+			 Form::closeInput();
 		 }
 		 
 		 /*
 		 	
 		 */
-		 public function addSelect($name, $type, $br = FALSE)
+		 public static function addSelect($name, $type, $br = FALSE)
 		 {
 			 if($name == NULL or $type == NULL)
 			 	echo'Impossible d\'effectuer une liste d\'item.';
@@ -82,14 +82,14 @@
 				 switch($type)
 				 {
 					 case "mois" : 
-								foreach($this->tableauMois as $var)
+								foreach(Form::$tableauMois as $var)
 								{
 									echo"<option value=\"".$i."\">".$var."</option>";
 									$i++;
 								}
 								break;
 					case "jours" : 
-								foreach($this->tableauJours as $var)
+								foreach(Form::tableauJours as $var)
 								{
 									echo"<option value=\"".$i."\">".$var."</option>";
 									$i++;
@@ -103,17 +103,19 @@
 				 	echo'<br/>';
 			 }
 		 }
+		 
 		 /* Permet de fermer le formulaire
 		 	@param submitName Nom du bouton submit.
 			@param submitValue Valeur affichée pour le bouton submit.
 		 */
-		 public function closeForm($submitName, $submitValue)
+		 public static function closeForm($submitName, $submitValue)
 		 {
-			if($submitName == NULL or $submitValue==NULL)
+			if($submitName == NULL || $submitValue==NULL)
 				echo"Impossible de fermer le formulaire.";
 			else
 			{	
-				$this->openInput($submitName, "submit", NULL, $submitValue, NULL, FALSE, TRUE);
+				Form::openInput($submitName, "submit", NULL, $submitValue, NULL, FALSE, TRUE);
+				Form::closeInput();
 				echo'</form>';
 			}
 		 }
