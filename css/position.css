@@ -85,29 +85,30 @@
 #accueilPresentation
 {
 	float:left;
-	width:465px;
-	background-color:green;
-	border: solid 6px;
+	width:350px;
+	border: solid 2px;
+	border-radius:10px;
 	margin : 15px;
 	margin-right : 5px;
+	background-color:#FF4;
 }
 
 /* ### Les articles compétitions de la page d'accueil ### */
 #accueilCompetitions
 {
 	float:right;
-	width:465px;
-	background-color:red;
-	border: solid 6px;
+	width:585px;
+	border: solid 2px;
+	border-radius:10px;
 	margin : 15px;
 	margin-left : 5px;
+	background-color:#FF4;
 }
 
 /* ### Les articles nouveautés de la page d'accueil ### */
 #accueilNouveautes
 {
 	clear:both;
-	background-color:grey;
-	border: solid 6px;
 	margin : 15px;
+	padding : 0 5px 0 2px;
 }
