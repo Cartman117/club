@@ -96,6 +96,11 @@ body
 	padding:5px;
 }
 
+#center 
+{
+	margin :0 17px 0 17px;
+}
+
 /* ### Body ### */
 #body
 {	

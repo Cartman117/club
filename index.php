@@ -68,35 +68,38 @@ $templateparams = $app->getTemplate(true)->params;
                 
                 <!-- Conteneur global du site -->
 				<div id="globalContainer">
-                		
-                			<!-- Pour l'affichage de la présentation sur la page d'accueil du site -->
-                   			<?php if($this->countModules('club-accueil-presentation')) : ?>
-                    			<div id="accueilPresentation">
-                    				<jdoc:include type="modules" name="club-accueil-presentation" style="container" />
-                  				</div>
-							<?php endif; ?>  
+                	
+                    <!-- Pour l'affichage de la présentation sur la page d'accueil du site -->
+                    <?php if($this->countModules('club-accueil-presentation')) : ?>
+                    <div id="accueilPresentation">
+                        <jdoc:include type="modules" name="club-accueil-presentation" style="container" />
+                    </div>
+                    <?php endif; ?>  
+            
+                    <!-- Pour l'affichage des compétitions sur la page d'accueil du site -->
+                    <?php if($this->countModules('club-accueil-competitions')) : ?>
+                    <div id="accueilCompetitions">
+                        <jdoc:include type="modules" name="club-accueil-competitions" style="container" />
+                    </div>
+                    <?php endif; ?>
+                        
+                    <!-- Pour l'affichage des nouveautés sur la page d'accueil du site -->
+                    <?php if($this->countModules('club-accueil-nouveautes')) : ?>
+                    <div id="accueilNouveautes">
+                        <jdoc:include type="modules" name="club-accueil-nouveautes" style="container" />
+                    </div>
+                    <?php endif; ?>
+                
+                    <!-- Pour l'affichage des articles sur les autres pages (pas encore fini) -->
+                    <?php if($this->countModules('club-article')) : ?>
+                        <jdoc:include type="modules" name="club-article" style="container" />
+                    <?php endif; ?>
+             
+                    <div id="center">
+                        <br/>
+                        <jdoc:include type="component" />
+                    </div>
                     
-			                <!-- Pour l'affichage des compétitions sur la page d'accueil du site -->
-			                <?php if($this->countModules('club-accueil-competitions')) : ?>
-                                <div id="accueilCompetitions">
-                                	<jdoc:include type="modules" name="club-accueil-competitions" style="container" />
-                                </div>
-			                <?php endif; ?>
-		                        
-		                    <!-- Pour l'affichage des nouveautés sur la page d'accueil du site -->
-		                    <?php if($this->countModules('club-accueil-nouveautes')) : ?>
-		                        <div id="accueilNouveautes">
-			                		<jdoc:include type="modules" name="club-accueil-nouveautes" style="container" />
-		    					</div>
-		                    <?php endif; ?>
-                    
-                    			<!-- Pour l'affichage des articles sur les autres pages (pas encore fini) -->
-                  			<?php if($this->countModules('club-article')) : ?>
-          					<jdoc:include type="modules" name="club-article" style="container" />
-         					<?php endif; ?>
-                            
-                            <jdoc:include type="message" />
-					<jdoc:include type="component" />
 				</div>
                 <!-- Fin du Conteneur global -->
         	</div>
