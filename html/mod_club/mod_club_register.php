@@ -10,8 +10,8 @@
 <?php
 	if(isset($_POST['registerMineur']))
 	{
-		include("./mod_club_functions.php");
-		include("./mod_club_class_db.php");
+		require("./mod_club_functions.php");
+		require("./mod_club_class_db.php");
 		$connexionDatabase = Database::getInstance();
 		
 			if(verifyName($_POST['prenomEnfant']) && verifyName($_POST['nomEnfant']) 
@@ -29,7 +29,8 @@
 					{
 						if(verifyPhone($_POST['numResponsable']))
 						{
-							if(verifyAdress($_POST['numRue'], $_POST['nomRue'], $_POST['codePostal'], $_POST['ville']))
+							if(verifyAdress($_POST['numRue'], $_POST['nomRue'], $_POST['codePostal'], $_POST['ville'])
+								&& verifyCodePostal($_POST['codePostalNaissance']) &&  verifyText($_POST['villeNaissance']))
 							{
 								try
 								{
