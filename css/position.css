@@ -123,3 +123,25 @@
 	margin: 20px 17px 0 17px;
 	padding : 0 5px 0 2px;
 }
+
+#accueilNouveautes a:visited, a:link
+{
+	text-decoration:none;
+	color:black;
+}
+
+#accueilNouveautes a:hover
+{
+	text-decoration:underline;
+}
+
+#center a:visited, a:link
+{
+	text-decoration:none;
+	color:black;
+}
+
+#center a:hover
+{
+	text-decoration:underline;
+}
