@@ -62,7 +62,6 @@
 							$requete .= ", ";
 							
 						$i++;
-						echo $requete.'<br/>';
 					}
 					else
 						throw new Exception("Veuillez remplir tous les champs");

@@ -5,3 +5,51 @@
 {
 	display:none;
 }
+
+.error_message, .info_message, .success_message
+{
+	text-shadow:0px 1px 0px #fff;
+	box-shadow:#e2e2e2;
+	margin-bottom:5px;
+	padding:10px 10px;
+	color:#665C59;
+}
+
+.error_message
+{
+	background-color:#F7DADC;
+	border:1px dotted #E02C2F;
+}
+
+.span_error_message
+{
+	font-weight:bold;
+	color:#E02C2F;
+	margin-right:10px;
+}
+
+.info_message
+{
+	background-color:#D7EBF2;
+	border:1px dotted #217599;
+}
+
+.span_info_message
+{
+	font-weight:bold;
+	color:#217599;
+	margin-right:10px;
+}
+
+.success_message
+{
+	background-color:#D9F4DA;
+	border:1px dotted #229E2D;
+}
+
+.span_success_message
+{
+	font-weight:bold;
+	color:#229E2D;
+	margin-right:10px;
+}
