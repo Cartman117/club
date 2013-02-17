@@ -66,6 +66,14 @@ $templateparams = $app->getTemplate(true)->params;
 				</div>
                 <!-- Fin du menu -->
                 
+                <!-- Menu pour les équipes -->
+                <div id="menuEquipes">
+                	<?php if($this->countModules('club-teammenu')) : ?>
+					<jdoc:include type="modules" name="club-teammenu" style="container" />
+					<?php endif; ?>
+                </div>
+                <!-- Fin du menu -->
+                
                 <!-- Conteneur global du site -->
 				<div id="globalContainer">
                 	
