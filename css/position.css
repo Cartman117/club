@@ -81,15 +81,11 @@
 
 /* ### Le positionnement de tous les articles ### */
 
-/* ### La syntaxe et l'affichage d'un article de base*/
+/* ### La syntaxe et l'affichage d'un article de base ### */
 #article 
 {
-	float:left;
-	width:970px;
-	border: solid 2px;
-	border-radius:10px;
-	margin : 15px;
-	background-color:#FF4;
+	margin: 0 17px 0 17px;
+	padding: 0 5px 0 2px;
 }
 
 /* ### Les articles présentation de la page d'accueil ### */
