@@ -107,7 +107,6 @@ $templateparams = $app->getTemplate(true)->params;
                     <?php endif; ?>
              
                     <div id="center">
-                        <br/>
                         <jdoc:include type="component" />
                     </div>
                     
