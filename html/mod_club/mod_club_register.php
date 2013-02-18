@@ -9,15 +9,16 @@
 <body>
 <?php
 	require("./mod_club_class_message.php");
-	Message::showErrorMessage("Hey");
-	Message::showInformationMessage("Hey");
-	Message::showSuccessMessage("Hey");
+	require("./mod_club_functions.php");
+	require("./mod_club_class_db.php");
+	require("./mod_club_class_form.php");
+	$register = FALSE;
+	
 	if(isset($_POST['registerMineur']))
 	{
-		require("./mod_club_functions.php");
-		require("./mod_club_class_db.php");
 		$connexionDatabase = Database::getInstance();
-		
+		if(Form::checkValues($_POST))
+		{
 			if(verifyName($_POST['prenomEnfant']) && verifyName($_POST['nomEnfant']) 
 				&& verifyName($_POST['nomResponsable']))
 			{
@@ -45,33 +46,34 @@
 											$_POST['codePostalNaissance'], $_POST['ville'], $_POST['codePostal'],
 											$_POST['nomRue'], $_POST['numRue'], $_POST['nomResponsable'],
 											$_POST['numResponsable'], 0, $_POST['sexe']));
+											
+									Message::showSuccessMessage("Votre enregistrement s'est effectué correctement.");
+									$register = TRUE;
 								}
 								catch(Exception $e)
 								{
-									echo $e;
+									Message::showErrorMessage($e);
 								}
 							}
 							else
-								echo"Addr";
+								Message::showErrorMessage("Les données d'adresse que vous avez entré sont incorrects.");
 						}
 						else
-							echo "Pb tel";
+							Message::showErrorMessage("Le numéro de téléphone que vous avez entré est incorrect.");
 					}
 					else
-					{
-						echo'Erreur d\'âge';
-					}
+						Message::showErrorMessage("Votre âge est incorrect.");
 				}
 			}
 			else
-			{
-				echo'Erreur prénom, nom';
-			}
+				Message::showErrorMessage("Votre prénom ou nom sont incorrects.");
+		}
+		else
+			Message::showErrorMessage("Veuillez remplir tous les champs.");
+				?><script>afficheFormulaireMineur();</script><?php 
 	}
-	elseif(isset($_POST['registerMajeur']))
+	if(isset($_POST['registerMajeur']))
 	{
-		require("./mod_club_functions.php");
-		require("./mod_club_class_db.php");
 		$connexionDatabase = Database::getInstance();
 		if(verifyName($_POST['prenom']) && verifyName($_POST['nom']))
 			{
@@ -98,32 +100,31 @@
 											$_POST['prenom'], $dateNaissance->format("d-m-Y") ,$_POST['villeNaissance'],
 											$_POST['codePostalNaissance'], $_POST['ville'], $_POST['codePostal'],
 											$_POST['nomRue'], $_POST['numRue'], $_POST['num'], 0, $_POST['sexe']));
+									
+									Message::showSuccessMessage("Votre enregistrement s'est effectué correctement.");
+									$register = TRUE;
 								}
 								catch(Exception $e)
 								{
-									echo $e;
+									Message::showErrorMessage(
+										"Une erreur s'est produite lors de l'enregistrement de vos données. Veuillez réassayer.");
 								}
 							}
 							else
-								echo"Addr";
+								Message::showErrorMessage("Les données d'adresse que vous avez entré sont incorrects.");
 						}
 						else
-							echo "Pb tel";
+							Message::showErrorMessage("Le numéro de téléphone que vous avez entré est incorrect.");
 					}
 					else
-					{
-						echo'Erreur d\'âge';
-					}
+						Message::showErrorMessage("Votre âge est incorrect.");
 				}
 			}
 			else
-			{
-				echo'Erreur prénom, nom';
-			}
+				Message::showErrorMessage("Votre prénom ou nom sont incorrects.");
 	}
-	else
+	if(!$register)
 	{
-		include("./mod_club_class_form.php");
 		echo'Êtes vous mineur';
 		Form::addRadioButton("formulaire", "mineur", "afficheFormulaireMineur()");
 		echo' ou  majeur ';
@@ -142,12 +143,12 @@
 		Form::openInput("prenomEnfant", "text", "Prénom enfant: ", NULL, 25);
 		Form::closeInput(FALSE, TRUE);
 		
-		Form::openInput("jourNaissance", "number", "Date de naissance (jj/mm/aaaa) : ", NULL, 2); 
+		Form::openInput("jourNaissance", "text", "Date de naissance (jj/mm/aaaa) : ", NULL, 2); 
 		Form::closeInput(FALSE);
 		
 		Form::addSelect("moisNaissance", "mois");
 		
-		Form::openInput("anneeNaissance", "number", NULL, NULL, 4);
+		Form::openInput("anneeNaissance", "text", NULL, NULL, 4);
 		Form::closeInput(FALSE, TRUE);
 		
 		Form::openInput("villeNaissance", "text", "Ville de naissance: ", NULL, 25);
@@ -159,7 +160,7 @@
 		Form::openInput("nomResponsable", "text", "Nom responsable: ", NULL, 25);
 		Form::closeInput(FALSE, TRUE);
 		
-		Form::openInput("num", "text", "Numéro portable: ", NULL, 12);
+		Form::openInput("numResponsable", "text", "Numéro portable: ", NULL, 12);
 		Form::closeInput(FALSE, TRUE);
 		
 		Form::openInput("numRue", "text", "Numéro rue : ", NULL, 3);
@@ -168,12 +169,12 @@
 		Form::openInput("nomRue", "text", "Nom rue : ", NULL, 50);
 		Form::closeInput(FALSE, TRUE);
 		
-		Form::openInput("codePostal", "text", "Code postal : ", NULL, 5);
+		Form::openInput("ville", "text", "Ville : ", NULL, 25);
 		Form::closeInput(FALSE);
 		
-		Form::openInput("ville", "text", "Ville : ", NULL, 25);
+		Form::openInput("codePostal", "text", "Code postal : ", NULL, 5);
 		Form::closeInput(FALSE, TRUE);
-	
+		
 		Form::closeForm("registerMineur", "S'enregistrer");
 		echo'</div>
 		<div id="majeur">';
@@ -190,12 +191,12 @@
 		Form::openInput("prenom", "text", "Prénom: ", NULL, 25);
 		Form::closeInput(TRUE, TRUE);
 		
-		Form::openInput("jourNaissance", "number", "Date de naissance (jj/mm/aaaa) : ", NULL, 2, TRUE); 
+		Form::openInput("jourNaissance", "text", "Date de naissance (jj/mm/aaaa) : ", NULL, 2, TRUE); 
 		Form::closeInput(TRUE);
 		
 		Form::addSelect("moisNaissance", "mois");
 		
-		Form::openInput("anneeNaissance", "number", NULL, NULL, 4);
+		Form::openInput("anneeNaissance", "text", NULL, NULL, 4);
 		Form::closeInput(TRUE, TRUE);
 		
 		Form::openInput("villeNaissance", "text", "Ville de naissance: ", NULL, 25);
@@ -213,14 +214,13 @@
 		Form::openInput("nomRue", "text", "Nom rue : ", NULL, 50);
 		Form::closeInput(TRUE, TRUE);
 		
-		Form::openInput("codePostal", "text", "Code Postal : ", NULL, 5);
-		Form::closeInput(TRUE);
-		
 		Form::openInput("ville", "text", "Ville : ", NULL, 25);
 		Form::closeInput(TRUE, TRUE);
+		
+		Form::openInput("codePostal", "text", "Code Postal : ", NULL, 5);
+		Form::closeInput(TRUE);
 	
-		Form::closeForm("registerMajeur", "S'enregistrer");	
-		echo'</div>';
+		Form::closeForm("registerMajeur", "S'enregistrer");
 	}
 ?>
 </body>

@@ -42,7 +42,7 @@
 						$i++;
 					}
 					else
-						throw new Exception("L'enregistrement de vos données à échoué. Veuillez réassayer.");
+						throw new Exception("Veuillez remplir tous les champs.");
 				}
 				$requete .= ")";
 			}
@@ -64,17 +64,60 @@
 						$i++;
 					}
 					else
-						throw new Exception("Veuillez remplir tous les champs");
+						throw new Exception("Veuillez remplir tous les champs.");
 				}
 				$requete .= ")";
 			}
 			else
 				throw new Exception("Aucune donnée a été reçue, veuillez réassayer");
-				
-			echo $requete.'<br/>';
-			
-			$this->connexion->query($requete) or die($this->connexion->error);
+						
+			try
+			{
+				$this->connexion->query($requete);
+			}
+			catch(Exception $e)
+			{
+				throw new Exception("Une erreur s'est produite lors de l'enregistrement de vos données. Veuillez réassayer.");
+			}
 		}
+		
+		public function selectDb($nomTable, $tableColonne, $condition = NULL)
+		{
+			$requete = "SELECT ";
+			if(!empty($tableColonne))
+			{
+				$i = 1;
+				foreach($tableColonne as &$value)
+				{
+					if($this->checkEmptyValue($value))
+					{
+							
+						$requete .= $value;
+					
+						if(count($tableColonne) != $i)
+							$requete .= ", ";
+						
+						$i++;
+					}
+					else
+						throw new Exception("Veuillez remplir tous les champs.");
+				}
+				$requete .= " FROM ".$nomTable;
+			}
+			if(!empty($condition))
+				$requete.= " WHERE ".$condition;
+			else
+				throw new Exception("Aucune donnée a été reçue, veuillez réassayer");
+						
+			try
+			{
+				return $this->connexion->query($requete);
+			}
+			catch(Exception $e)
+			{
+				throw new Exception("Une erreur s'est produite lors de l'enregistrement de vos données. Veuillez réassayer.");
+			}
+		}		
 		
 		private function cleanValue($value)
 		{

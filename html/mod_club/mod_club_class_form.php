@@ -35,7 +35,7 @@
 					echo" value=\"".$inputValue."\"";
 					
 				if($maxLength != NULL)
-					echo" maxlength=\"".$maxLength."\"";
+					echo" maxlength=\"".$maxLength."\" size=\"".$maxLength."\"";
 			}
 		 }
 		 	 
@@ -118,6 +118,19 @@
 				Form::closeInput();
 				echo'</form>';
 			}
+		 }
+		 
+		 /* Permet de vérifier que les données envoyées dans le form sont toutes remplies.
+		 	@param formValues Les valeurs du formulaire.
+		 */
+		 public static function checkValues($formValues)
+		 {
+			 foreach($formValues as $var)
+			 {
+				 if(empty($var))
+				 	return FALSE;
+			 }
+			 return TRUE;
 		 }
 	}
 ?>
