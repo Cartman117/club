@@ -141,3 +141,15 @@
 {
 	text-decoration:underline;
 }
+
+.readmore 
+{
+	padding-left:15px;
+	font-style:italic;
+}
+
+.newsflash-title 
+{
+	padding-top:25px;
+	padding-bottom:7px;
+}
