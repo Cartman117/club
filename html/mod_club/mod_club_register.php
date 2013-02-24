@@ -42,7 +42,7 @@
 									$connexionDatabase->insertDb("club_inscrit", array("nom", "prenom", "date_naiss",
 										"ville_naiss", "code_postal_naiss", "ville", "code_postal", "nom_rue", "num_rue", 
 										"nom_resp", "num_tel_resp", "licencie", "sexe"), array($_POST['nomEnfant'],
-											$_POST['prenomEnfant'], $dateNaissance->format("d-m-Y") ,$_POST['villeNaissance'],
+											$_POST['prenomEnfant'], $dateNaissance->format("Y-m-d") ,$_POST['villeNaissance'],
 											$_POST['codePostalNaissance'], $_POST['ville'], $_POST['codePostal'],
 											$_POST['nomRue'], $_POST['numRue'], $_POST['nomResponsable'],
 											$_POST['numResponsable'], 0, $_POST['sexe']));
@@ -70,7 +70,6 @@
 		}
 		else
 			Message::showErrorMessage("Veuillez remplir tous les champs.");
-				?><script>afficheFormulaireMineur();</script><?php 
 	}
 	if(isset($_POST['registerMajeur']))
 	{
@@ -97,7 +96,7 @@
 									$connexionDatabase->insertDb("club_inscrit", array("nom", "prenom", "date_naiss",
 										"ville_naiss", "code_postal_naiss", "ville", "code_postal", "nom_rue", "num_rue", 
 										"num_tel_resp", "licencie", "sexe"), array($_POST['nom'],
-											$_POST['prenom'], $dateNaissance->format("d-m-Y") ,$_POST['villeNaissance'],
+											$_POST['prenom'], $dateNaissance->format("Y-m-d"),$_POST['villeNaissance'],
 											$_POST['codePostalNaissance'], $_POST['ville'], $_POST['codePostal'],
 											$_POST['nomRue'], $_POST['numRue'], $_POST['num'], 0, $_POST['sexe']));
 									

@@ -119,6 +119,34 @@
 			}
 		}		
 		
+		public function updateDb($tableName, $column, $value, $condition = NULL)
+		{
+			$request = "UPDATE ";
+			if(!empty($tableName) && !empty($column))
+			{
+				$request .= $tableName." SET ".$column." = ";
+				
+				if($this->checkEmptyValue($value))
+					$request .= $value;
+				else
+					throw new Exception("La modification a échoué.");
+			}
+			else
+				throw new Exception("Aucune donnée a été reçue, veuillez réassayer.");
+			
+			if(!empty($condition))
+				$requete.= " WHERE ".$condition;
+			
+			try
+			{
+				$this->connexion->query($requete);
+			}
+			catch(Exception $e)
+			{
+				throw new Exception("Une erreur s'est produite lors de la modification des données. Veuillez réassayer.");
+			}
+		}		
+		
 		private function cleanValue($value)
 		{
 			$valueSecured = $this->connexion->real_escape_string($value);
