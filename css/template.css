@@ -108,6 +108,11 @@ body
 }
 
 /* ### Footer ### */
+#footer img
+{
+	border:none;
+}
+
 #logos
 {
 	float:left;

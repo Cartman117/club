@@ -76,7 +76,12 @@ $templateparams = $app->getTemplate(true)->params;
                 
                 <!-- Conteneur global du site -->
 				<div id="globalContainer">
-                	
+                
+                	<!-- Affichage des résultats de recherche, de connexion et de certain articles -->
+                	<div id="center">
+                        <jdoc:include type="component" />
+                    </div>
+                    
                     <!-- Pour l'affichage de la présentation sur la page d'accueil du site -->
                     <?php if($this->countModules('club-accueil-presentation')) : ?>
                     <div id="accueilPresentation">
@@ -105,10 +110,6 @@ $templateparams = $app->getTemplate(true)->params;
                         <jdoc:include type="modules" name="club-article" style="container" />
                     </div>
                     <?php endif; ?>
-             
-                    <div id="center">
-                        <jdoc:include type="component" />
-                    </div>
                     
 				</div>
                 <!-- Fin du Conteneur global -->

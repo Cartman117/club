@@ -215,3 +215,40 @@
 	padding-left:10px;
 	padding-bottom:2px;
 }
+
+/* ### Affichage du formulare de création de compte ### */
+.registration
+{
+	clear:both;
+	font-family:Arial,Helvetica,Verdana,sans-serif;
+	margin:0 320px 0 320px;
+	border:solid 2px;
+	border-radius:10px;
+	padding:15px 30px 15px 50px;
+}
+
+.registration fieldset
+{
+	border: none;
+}
+
+.registration legend
+{
+	padding-left:50px;
+	padding-bottom:10px;
+}
+
+#jform_spacer-lbl
+{
+	padding-left:25px;
+}
+
+.registration input
+{
+	margin-bottom:15px;
+}
+
+.registration button
+{
+	padding:2px;
+}
