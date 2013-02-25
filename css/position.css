@@ -95,8 +95,7 @@
 	width:350px;
 	border: solid 2px;
 	border-radius:10px;
-	margin:18px;
-	margin-right:5px;
+	margin:0 5px 18px 18px;
 	background-color:#FF4;
 }
 
@@ -107,8 +106,7 @@
 	width:585px;
 	border: solid 2px;
 	border-radius:10px;
-	margin:18px;
-	margin-left:5px;
+	margin:0 18px 18px 5px;
 	background-color:#FF4;
 }
 
@@ -153,7 +151,12 @@
 	font-style:italic;
 }
 
-.newsflash-title, .leading-0 h2, .leading-1 h2, .leading-2 h2, .leading-3 h2, .leading-4 h2, .item-page h2
+.leading-0 h2
+{
+	padding-bottom:7px;
+}
+
+.newsflash-title, .leading-1 h2, .leading-2 h2, .leading-3 h2, .leading-4 h2, .item-page h2
 {
 	padding-top:25px;
 	padding-bottom:7px;

@@ -79,6 +79,7 @@ $templateparams = $app->getTemplate(true)->params;
                 
                 	<!-- Affichage des résultats de recherche, de connexion et de certain articles -->
                 	<div id="center">
+                    	<br/>
                         <jdoc:include type="component" />
                     </div>
                     
