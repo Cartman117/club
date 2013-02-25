@@ -76,7 +76,7 @@ body
   cursor:pointer;
   font-weight:bold;
   font-family:Arial,Helvetica,Verdana,sans-serif;
-  border:solid 0px #ddd;
+  border:0;
   background-image:url('./images/button.jpeg');
   background-color:#ccc;
   color:#333;

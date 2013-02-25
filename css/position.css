@@ -158,3 +158,60 @@
 	padding-top:25px;
 	padding-bottom:7px;
 }
+
+/* ### Postionnement du résultat du module de recherche ### */
+
+.search
+{
+	border-bottom:1px solid black;
+	font-family:Arial,Helvetica,Verdana,sans-serif;
+}
+
+#searchForm
+{
+	clear:both;
+	padding-top:15px;
+}
+
+.word, .phrases, .only, .search-results
+{
+	border:none;
+	padding-bottom:5px;
+}
+
+.word input
+{
+    border:solid 1px #bbb;
+    padding:2px;
+    width:125px;
+}
+
+.word button
+{
+	cursor:pointer;
+	border:0;
+	background-color:#bbb;
+	color:#333;
+	padding:3px;
+}
+
+.searchintro
+{
+	padding:0 0 5px 5px;
+}
+
+.phrases legend, .phrases-box, .ordering-box, .only legend, .form-limit, .result-created
+{
+	padding-bottom:3px;
+}
+
+.phrases-box label, .only label
+{
+	padding-right:5px;
+}
+
+.result-title
+{
+	padding-left:10px;
+	padding-bottom:2px;
+}
