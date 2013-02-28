@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 	class Database
 	{
 		private static $_instance = null;
@@ -24,31 +24,31 @@
 		
 		public function insertDb($nomTable, $tableColonne, $tableValeur)
 		{
-			$requete = "INSERT into ".$nomTable;
+			$request = "INSERT into ".$nomTable;
 			if(!empty($tableColonne))
 			{
-				$requete .= " (";
+				$request .= " (";
 				$i = 1;
 				foreach($tableColonne as &$value)
 				{
 					if($this->checkEmptyValue($value))
 					{
 							
-						$requete .= $value;
+						$request .= $value;
 					
 						if(count($tableColonne) != $i)
-							$requete .= ", ";
+							$request .= ", ";
 						
 						$i++;
 					}
 					else
 						throw new Exception("Veuillez remplir tous les champs.");
 				}
-				$requete .= ")";
+				$request .= ")";
 			}
 			if(!empty($tableValeur))
 			{
-				$requete .= "VALUES (";
+				$request .= "VALUES (";
 				$i = 1;
 				foreach($tableValeur as &$value)
 				{
@@ -56,24 +56,24 @@
 					{
 						$value = $this->cleanValue($value);
 						
-						$requete .= "'".$value."'";
+						$request .= "'".$value."'";
 							
 						if(count($tableColonne) != $i)
-							$requete .= ", ";
+							$request .= ", ";
 							
 						$i++;
 					}
 					else
 						throw new Exception("Veuillez remplir tous les champs.");
 				}
-				$requete .= ")";
+				$request .= ")";
 			}
 			else
 				throw new Exception("Aucune donnée a été reçue, veuillez réassayer");
 						
 			try
 			{
-				$this->connexion->query($requete);
+				$this->connexion->query($request);
 			}
 			catch(Exception $e)
 			{
@@ -83,7 +83,7 @@
 		
 		public function selectDb($nomTable, $tableColonne, $condition = NULL)
 		{
-			$requete = "SELECT ";
+			$request = "SELECT ";
 			if(!empty($tableColonne))
 			{
 				$i = 1;
@@ -91,27 +91,26 @@
 				{
 					if($this->checkEmptyValue($value))
 					{
-							
-						$requete .= $value;
+						$request .= $value;
 					
 						if(count($tableColonne) != $i)
-							$requete .= ", ";
+							$request .= ", ";
 						
 						$i++;
 					}
 					else
 						throw new Exception("Veuillez remplir tous les champs.");
 				}
-				$requete .= " FROM ".$nomTable;
+				$request .= " FROM ".$nomTable;
 			}
 			if(!empty($condition))
-				$requete.= " WHERE ".$condition;
+				$request.= " WHERE ".$condition;
 			else
 				throw new Exception("Aucune donnée a été reçue, veuillez réassayer");
 						
 			try
 			{
-				return $this->connexion->query($requete);
+				return $this->connexion->query($request);
 			}
 			catch(Exception $e)
 			{
@@ -135,11 +134,11 @@
 				throw new Exception("Aucune donnée a été reçue, veuillez réassayer.");
 			
 			if(!empty($condition))
-				$requete.= " WHERE ".$condition;
+				$request.= " WHERE ".$condition;
 			
 			try
 			{
-				$this->connexion->query($requete);
+				$this->connexion->query($request);				
 			}
 			catch(Exception $e)
 			{

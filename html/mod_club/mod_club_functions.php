@@ -1,4 +1,4 @@
-<?php	
+﻿<?php	
 	function verifyName($texte)
 	{
 		return (preg_match(

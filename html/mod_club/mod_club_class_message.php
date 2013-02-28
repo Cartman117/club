@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 	class Message
 	{
 		public static function showErrorMessage($message)

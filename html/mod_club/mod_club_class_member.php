@@ -1,9 +1,8 @@
-<?php
+﻿<?php
 	class Member
 	{
 		private $id, $name, $firstName, $birthday, $birthplace, $birthplaceCodePostal, $city, $codePostal, $streetName, $streetNumber,
 		$nomResp, $phoneNumber, $licencie, $num_licence, $sexe;
-		private $connexionDatabase;
 
 		function __construct($id)
 		{
@@ -11,8 +10,8 @@
 			{
 				try
 				{
-					$this->connexionDatabase = Database::getInstance();
-					$infosMember = $this->connexionDatabase->selectDb("club_inscrit", 
+					$connexionDatabase = Database::getInstance();
+					$infosMember = $connexionDatabase->selectDb("club_inscrit", 
 						array("*", "DATE_FORMAT(date_naiss,'%d-%m-%Y') AS date_naiss"), "id_inscrit = ".$id);
 							
 					$infosMember = mysqli_fetch_assoc($infosMember);
@@ -35,14 +34,14 @@
 				}
 				catch(Exception $e)
 				{
-					throw new Exception($e);
+					throw new Exception("Impossible de récupérer le membre.");
 				}
 			}
 			else
 				throw new Exception("Impossible de récupérer le membre.");
 		}
 		
-		public function showMember()
+		function showMember()
 		{
 			echo"<p><b>".$this->firstName." ".$this->name."</b> est né le ".$this->birthday->format("d/m/Y")." à ".$this->birthplace."(".
 			$this->birthplaceCodePostal.")<br/>";
@@ -53,7 +52,8 @@
 			else
 			{
 				echo"Nom du responsable : ".$this->nomResp."<br/>Numéro de téléphone du responsable : ".$this->phoneNumber;
-			}			
+			}
+			echo"<br/>Adresse : ".$this->streetNumber.", ".$this->streetName."<br/>".$this->codePostal." ".$this->city."</p>";
 		}
 		
 		function isMajeur()
@@ -72,7 +72,30 @@
 		function validateLicence()
 		{
 			if(!$this->isLicencie())
-				$this->connexionDatabase->updateDb("club_inscrit", "licencie", 1, "id_inscrit = ".$this->id);
+			{
+				$connexionDatabase = Database::getInstance();
+				$connexionDatabase->updateDb("club_inscrit", "licencie", 1, "id_inscrit = ".$this->id);
+			}
+		}
+		
+		function getId()
+		{
+			return $this->id;
+		}
+		
+		static function checkIsValidate($id)
+		{
+			if(is_numeric($id))
+			{
+				$connexionDatabase = Database::getInstance();
+				$nbResults = mysqli_fetch_row($connexionDatabase->selectDb("club_inscrit", array("COUNT(*)"), "id_compte = ".$id));
+				if($nbResults[0] == 1)
+					return FALSE;
+				else
+					return TRUE;			
+			}
+			else
+				return FALSE;
 		}
 
 	}

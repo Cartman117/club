@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 	class Form
 	{
 		private static $tableauMois = array("Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre");
