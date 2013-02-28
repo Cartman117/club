@@ -107,7 +107,6 @@ $templateparams = $app->getTemplate(true)->params;
                     <!-- Pour l'affichage des articles sur les autres pages (pas encore fini) -->
                     <?php if($this->countModules('club-article')) : ?>
                     <div id="article">
-                    	<br/>
                         <jdoc:include type="modules" name="club-article" style="container" />
                     </div>
                     <?php endif; ?>
