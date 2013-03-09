@@ -114,7 +114,7 @@
 #accueilNouveautes
 {
 	clear:both;
-	margin: 20px 17px 0 17px;
+	margin: 0 17px 0 17px;
 	padding : 0 5px 0 2px;
 }
 
@@ -173,7 +173,6 @@
 #searchForm
 {
 	clear:both;
-	padding-top:15px;
 }
 
 .word, .phrases, .only, .search-results
@@ -254,4 +253,46 @@
 .registration button
 {
 	padding:2px;
+}
+
+/* ### Affichage de Identifiant oublié et Mot de passe oublié ### */
+.remind p, .reset p
+{
+	padding-bottom:10px;
+}
+
+.remind fieldset, .reset fieldset
+{
+	border:none;
+}
+
+.remind input, .reset input
+{
+	margin-bottom:5px;
+}
+
+.validate
+{
+	padding:2px;
+}
+
+.login fieldset
+{
+	border:none;
+}
+
+.login-fields
+{
+	padding-bottom:5px;
+}
+
+.button
+{
+	padding:2px;
+	margin-bottom:5px;
+}
+
+ul
+{
+	overflow-x: hidden;
 }

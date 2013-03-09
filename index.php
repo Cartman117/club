@@ -59,19 +59,19 @@ $templateparams = $app->getTemplate(true)->params;
                 <!-- Fin du Header -->
                 
                 <!-- Menu du site -->
-				<div id="menu">
-					<?php if($this->countModules('club-topmenu')) : ?>
-					<jdoc:include type="modules" name="club-topmenu" style="container" />
-					<?php endif; ?>
+				<?php if($this->countModules('club-topmenu')) : ?>
+				<div id="menu">	
+                    <jdoc:include type="modules" name="club-topmenu" style="container" />
 				</div>
+				<?php endif; ?>
                 <!-- Fin du menu -->
                 
                 <!-- Menu pour les équipes -->
+                <?php if($this->countModules('club-teammenu')) : ?>
                 <div id="menuEquipes">
-                	<?php if($this->countModules('club-teammenu')) : ?>
 					<jdoc:include type="modules" name="club-teammenu" style="container" />
-					<?php endif; ?>
                 </div>
+				<?php endif; ?>
                 <!-- Fin du menu -->
                 
                 <!-- Conteneur global du site -->
@@ -79,7 +79,6 @@ $templateparams = $app->getTemplate(true)->params;
                 
                 	<!-- Affichage des résultats de recherche, de connexion et de certain articles -->
                 	<div id="center">
-                    	<br/>
                         <jdoc:include type="component" />
                     </div>
                     
