@@ -9,11 +9,13 @@
 	margin:auto;
 	width:1000px;
 }
+
 #login-forgot
 {
 	float:left;
 	margin-top:13px;
 }
+
 #login a
 {
 	color:white;
@@ -74,6 +76,7 @@
 {	
 	margin:auto;
 }
+
 #footer
 {
 	margin:auto;
@@ -145,6 +148,7 @@
 	text-decoration:underline;
 }
 
+/* ### Lien lire la suite ### */
 .readmore 
 {
 	padding-left:15px;
@@ -163,10 +167,10 @@
 }
 
 /* ### Postionnement du résultat du module de recherche ### */
-
 .search
 {
 	border-bottom:1px solid black;
+	margin-bottom:25px;
 	font-family:Arial,Helvetica,Verdana,sans-serif;
 }
 
