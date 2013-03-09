@@ -218,7 +218,7 @@
 	padding-bottom:2px;
 }
 
-/* ### Affichage du formulare de création de compte ### */
+/* ### Affichage du formulaire de création de compte ### */
 .registration
 {
 	clear:both;
@@ -255,7 +255,6 @@
 	padding:2px;
 }
 
-/* ### Affichage de Identifiant oublié et Mot de passe oublié ### */
 .remind p, .reset p
 {
 	padding-bottom:10px;
@@ -289,7 +288,6 @@
 .button
 {
 	padding:2px;
-	margin-bottom:5px;
 }
 
 ul

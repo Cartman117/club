@@ -77,8 +77,9 @@ $templateparams = $app->getTemplate(true)->params;
                 <!-- Conteneur global du site -->
 				<div id="globalContainer">
                 
-                	<!-- Affichage des résultats de recherche, de connexion et de certain articles -->
+                	<!-- Affichage des résultats de recherche, de connexion et de certains articles -->
                 	<div id="center">
+                    	<br/>
                         <jdoc:include type="component" />
                     </div>
                     
