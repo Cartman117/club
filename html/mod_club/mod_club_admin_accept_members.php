@@ -12,7 +12,9 @@
 	require("./mod_club_class_db.php");
 	require("./mod_club_class_form.php");
 	require("./mod_club_class_member.php");
-
+	
+	session_start();
+	
 	define( '_JEXEC', 1 );
 	define('JPATH_BASE', '../../../..' );
 	define( 'DS', DIRECTORY_SEPARATOR );
@@ -29,7 +31,7 @@
 	
 	if (!isset($groups[8]) || $groups[8]!=8)
 	{
-		Message::showInformationMessage("Vous ne possédez pas les droits nécessaires pour accèder à cette page.");
+		Message::showInformationMessage("Vous ne possédez pas les droits nécessaires pour accèder à cette page ou n'êtes pas connecté(e).");
 		die();
 	}
 	
@@ -42,7 +44,6 @@
 			$member = new Member($_POST['id']);
 			$member->showMember();
 			
-			session_start();
 			$_SESSION['memberToValidate'] = $member;	
 			Form::openForm(NULL, "post");
 			Form::closeForm("validate", "Valider le membre");
@@ -54,7 +55,6 @@
 	}
 	elseif(isset($_POST['validate']))
 	{
-		session_start();
 		$memberToRegister = &$_SESSION['memberToValidate'];
 		if(!is_object($memberToRegister))
 			Message::showErrorMessage("Il est impossible de valider le membre.");
@@ -96,7 +96,8 @@
 					<td><form action=\"\" method=\"post\">
 						<input type=\"hidden\" value=\"".$results['id_inscrit']."\" name=\"id\"/>
 						<input type=\"submit\" name=\"visualize\" value=\"Visualiser\"/>
-						</form></td>
+						</form>
+					</td>
 				</tr>";					
 		}
 		echo'</table>';

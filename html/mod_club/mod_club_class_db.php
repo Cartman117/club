@@ -69,7 +69,7 @@
 				$request .= ")";
 			}
 			else
-				throw new Exception("Aucune donnée a été reçue, veuillez réassayer");
+				throw new Exception("Aucune donnée a été reçue, veuillez réessayer");
 						
 			try
 			{
@@ -77,7 +77,7 @@
 			}
 			catch(Exception $e)
 			{
-				throw new Exception("Une erreur s'est produite lors de l'enregistrement de vos données. Veuillez réassayer.");
+				throw new Exception("Une erreur s'est produite lors de l'enregistrement de vos données. Veuillez réessayer.");
 			}
 		}
 		
@@ -103,10 +103,11 @@
 				}
 				$request .= " FROM ".$nomTable;
 			}
+			else
+				throw new Exception("Aucune donnée a été reçue, veuillez réessayer");
+				
 			if(!empty($condition))
 				$request.= " WHERE ".$condition;
-			else
-				throw new Exception("Aucune donnée a été reçue, veuillez réassayer");
 						
 			try
 			{
@@ -114,7 +115,7 @@
 			}
 			catch(Exception $e)
 			{
-				throw new Exception("Une erreur s'est produite lors de l'enregistrement de vos données. Veuillez réassayer.");
+				throw new Exception("Une erreur s'est produite lors de l'enregistrement de vos données. Veuillez réessayer.");
 			}
 		}		
 		
@@ -131,7 +132,7 @@
 					throw new Exception("La modification a échoué.");
 			}
 			else
-				throw new Exception("Aucune donnée a été reçue, veuillez réassayer.");
+				throw new Exception("Aucune donnée a été reçue, veuillez réessayer.");
 			
 			if(!empty($condition))
 				$request.= " WHERE ".$condition;
@@ -142,9 +143,32 @@
 			}
 			catch(Exception $e)
 			{
-				throw new Exception("Une erreur s'est produite lors de la modification des données. Veuillez réassayer.");
+				throw new Exception("Une erreur s'est produite lors de la modification des données. Veuillez réessayer.");
 			}
 		}		
+		
+		public function deleteDb($tableName, $condition = NULL)
+		{
+			$request = "DELETE FROM ";
+			if(!empty($tableName))
+			{
+				$request .= $tableName;
+			}
+			else
+				throw new Exception("Aucune donnée a été reçue, veuillez réessayer.");
+			
+			if(!empty($condition))
+				$request.= " WHERE ".$condition;
+			
+			try
+			{
+				$this->connexion->query($request);				
+			}
+			catch(Exception $e)
+			{
+				throw new Exception("Une erreur s'est produite lors de la modification des données. Veuillez réessayer.");
+			}
+		}
 		
 		private function cleanValue($value)
 		{
