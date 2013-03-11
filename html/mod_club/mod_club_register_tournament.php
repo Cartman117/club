@@ -33,9 +33,9 @@
 		
 	}
 	
+	$connexionDatabase = Database::getInstance();
 	if(isset($_POST['registerTournament']))
 	{
-		$connexionDatabase = Database::getInstance();
 		if(Form::checkValues($_POST))
 		{
 			if(isset($_POST['photos']))
@@ -97,10 +97,15 @@
 		else
 			Message::showErrorMessage("Veuillez remplir tous les champs.");
 	}
-	
-	Form::closeForm("registerMineur", "S'enregistrer");
-		echo'</div>
-		<div id="majeur">';
+		echo'<h3>Inscription tournoi</h3><br/>Liste des tournois : ';
+		$request = $connexionDatabase->selectDb("club_tournoi", array("id_tournoi","nom", "DATE_FORMAT(date,'%d/%m/%Y') AS date"));
+		while($results = mysqli_fetch_assoc($request))
+		{
+			Form::openInput("tournoi", "checkbox", NULL, $results['id_tournoi']);
+			Form::closeInput();	
+			echo $results['nom']."(".$results['date'].")";							
+		}
+		echo'<hr/>';
 		Form::openForm(NULL, "post");
 		echo'Sexe : Homme';
 		Form::addRadioButton("sexe", "h");
@@ -142,16 +147,17 @@
 		
 		Form::openInput("codePostal", "text", "Code Postal : ", NULL, 5);
 		Form::closeInput(TRUE, TRUE);
-		echo'Êtes-vous licencié ? Oui';
+		echo'Êtes-vous licencié ? Non';
+		Form::addRadioButton("formulaire", "nonlicencie", "cacheSuiteFormTournoi()");		
+		echo' Oui ';
 		Form::addRadioButton("formulaire", "licencie", "afficheSuiteFormTournoi()");
-		echo' Non ';
-		Form::addRadioButton("formulaire", "majeur", "cacheSuiteFormTournoi()");
-		echo'<br/><div id=\"formulaireTournament\">';
-		
-		
+		echo'<br/><div id="formulaireTournament">';
+		Form::openInput("club", "text", "Club : ", NULL, 25);
+		Form::closeInput(TRUE, TRUE);
+		Form::openInput("numLicence", "text", "Numéro de licence : ", NULL, 20);
+		Form::closeInput(TRUE, TRUE);
+		echo'</div>';
 		Form::closeForm("registerTournament", "S'enregistrer");
 ?>
-
-<body>
 </body>
 </html>

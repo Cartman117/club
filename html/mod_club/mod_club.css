@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 /* Met en forme les différents composants du module */
-#mineur, #majeur
+#mineur, #majeur, #formulaireTournament
 {
 	display:none;
 }
