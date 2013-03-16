@@ -48,7 +48,7 @@
 			}
 			if(!empty($tableValeur))
 			{
-				$request .= "VALUES (";
+				$request .= " VALUES (";
 				$i = 1;
 				foreach($tableValeur as &$value)
 				{
@@ -58,7 +58,7 @@
 						
 						$request .= "'".$value."'";
 							
-						if(count($tableColonne) != $i)
+						if(count($tableValeur) != $i)
 							$request .= ", ";
 							
 						$i++;
@@ -73,7 +73,7 @@
 						
 			try
 			{
-				$this->connexion->query($request);
+				return $this->connexion->query($request);
 			}
 			catch(Exception $e)
 			{
@@ -186,6 +186,11 @@
 			{
 				throw new Exception("Une erreur s'est produite lors de la modification des données. Veuillez réessayer.");
 			}
+		}
+		
+		public function lastCreatedId()
+		{
+			return $this->connexion->insert_id;
 		}
 		
 		private function cleanValue($value)

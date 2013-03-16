@@ -216,7 +216,7 @@
 		Form::openInput("codePostal", "text", "Code postal : ", NULL, 5);
 		Form::closeInput(TRUE, TRUE);
 		
-		Form::openInput("ville", "text", "Ville : ", NULL, 25);
+		Form::openInput("ville", "text", "Ville : ", NULL, 30);
 		Form::closeInput(TRUE, TRUE);
 		
 		Form::openInput("photos", "checkbox");
