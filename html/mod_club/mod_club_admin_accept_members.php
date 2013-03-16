@@ -86,7 +86,7 @@
             <th>Visualiser</th>
         </tr>
 <?php
-		$request = $connexionDatabase->selectDb("club_inscrit", array("id_inscrit", "nom", "prenom", "DATE_FORMAT(date_naiss,'%d/%m/%Y') AS date_naiss"), "licencie = 0");
+		$request = $connexionDatabase->selectDb(array("club_inscrit"), array("id_inscrit", "nom", "prenom", "DATE_FORMAT(date_naiss,'%d/%m/%Y') AS date_naiss"), "licencie = 0");
 		while($results = mysqli_fetch_assoc($request))
 		{
 			echo"<tr>

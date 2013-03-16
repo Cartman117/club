@@ -1,7 +1,38 @@
 @charset "utf-8";
 
 /* Met en forme les différents composants du module */
-#mineur, #majeur, #formulaireTournament
+label
+{
+	display:block;
+	width:250px;
+	float:left;
+}
+
+input
+{
+	padding:5px;
+	margin:2px;
+}
+
+input[type="submit"]
+{
+    border:none;
+    color:white;
+    background-color:#5A5A5A;
+    width:200px;
+    cursor:pointer;
+}
+
+#formMail label
+{
+	width:300px;
+}
+select
+{
+	font-size:18px;
+}
+
+#mineur, #majeur, #formulaireTournament,  #nouveauTournoi, #ajoutTournoi
 {
 	display:none;
 }

@@ -29,8 +29,7 @@
 	if ($user->guest != 1)
 	{
 		$member = TRUE;
-		$m = new Member($user->id);
-		
+		$m = new Member($user->id);		
 	}
 	
 	$connexionDatabase = Database::getInstance();
@@ -45,48 +44,40 @@
 					$jourNaissance = $_POST['jourNaissance'];
 					$moisNaissance = $_POST['moisNaissance'];
 					$anneeNaissance = $_POST['anneeNaissance'];
-					if(preg_match("/^[0-9]{1,2}/", $jourNaissance) && preg_match("/[0-9]{4}/", $anneeNaissance))
+					if(preg_match("/^[0-9]{1,2}/", $jourNaissance) && preg_match("/[0-9]{4}/", $anneeNaissance) && $jourNaissance <= 28)
 					{
 						$dateNaissance = new DateTime($anneeNaissance."-".$moisNaissance."-".$jourNaissance);
-						$dateActuelle = new DateTime("now");
-						$dateActuelle = $dateActuelle->setTime(0,0,0);
-						if($dateNaissance->diff($dateActuelle)->y >= 18)
+						if(verifyPhone($_POST['numero']))
 						{
-							if(verifyPhone($_POST['numero']))
+							if(verifyAdress($_POST['numRue'], $_POST['nomRue'], $_POST['codePostal'], $_POST['ville']))
 							{
-								if(verifyAdress($_POST['numRue'], $_POST['nomRue'], $_POST['codePostal'], $_POST['ville'])
-									&& verifyCodePostal($_POST['codePostalNaissance']) &&  verifyText($_POST['villeNaissance']))
+								try
 								{
-									try
-									{
-										$connexionDatabase->insertDb("club_inscrit_pour_tournoi", 
-											array("id_compte", "nom", "prenom", "date_naiss",
-												"ville_naiss", "code_postal_naiss", "ville", "code_postal", "nom_rue", "num_rue", 
-												"num_tel_resp", "licencie", "sexe"),
-											array($user->id, $_POST['nom'],
-												$_POST['prenom'], $dateNaissance->format("Y-m-d"),$_POST['villeNaissance'],
-												$_POST['codePostalNaissance'], $_POST['ville'], $_POST['codePostal'],
-												$_POST['nomRue'], $_POST['numRue'], $_POST['numero'], 0, $_POST['sexe']));
-										
-										Message::showSuccessMessage("Votre inscription au tournoi s'est effectué correctement.");
-										$register = TRUE;
-									}
-									catch(Exception $e)
-									{
-										Message::showErrorMessage("Une erreur s'est produite lors de votre inscription au tournoi. Veuillez réassayer.");
-									}
+									$connexionDatabase->insertDb("club_inscrit_pour_tournoi", 
+										array("nom", "prenom", "date_naiss", "num_tel_resp",
+											"ville", "code_postal", "nom_rue", "num_rue", 
+											"mail", "licencie", "club", "num_licence", "sexe"),
+										array($_POST['nom'], $_POST['prenom'],
+											$dateNaissance->format("Y-m-d"), $_POST['numero'], 
+											$_POST['ville'], $_POST['codePostal'],
+											$_POST['nomRue'], $_POST['numRue'], $_POST['mail'], $_POST['formulaire'],
+											$_POST['club'], $_POST['num_licence'], $_POST['sexe']));
+									
+									Message::showSuccessMessage("Votre inscription au tournoi s'est effectué correctement.");
 								}
-								else
-									Message::showErrorMessage("Les données d'adresse que vous avez entré sont incorrects.");
+								catch(Exception $e)
+								{
+									Message::showErrorMessage("Une erreur s'est produite lors de votre inscription au tournoi. Veuillez réessayer.");
+								}
 							}
 							else
-								Message::showErrorMessage("Le numéro de téléphone que vous avez entré est incorrect.");
+								Message::showErrorMessage("Les données d'adresse que vous avez entré sont incorrects.");
 						}
 						else
-							Message::showErrorMessage("Votre âge est incorrect.");
+							Message::showErrorMessage("Le numéro de téléphone que vous avez entré est incorrect.");
 					}
 					else
-							Message::showErrorMessage("Votre âge est incorrect.");
+						Message::showErrorMessage("Votre âge est incorrect.");
 				}
 				else
 					Message::showErrorMessage("Votre prénom ou nom sont incorrects.");
@@ -97,15 +88,57 @@
 		else
 			Message::showErrorMessage("Veuillez remplir tous les champs.");
 	}
-		echo'<h3>Inscription tournoi</h3><br/>Liste des tournois : ';
-		$request = $connexionDatabase->selectDb("club_tournoi", array("id_tournoi","nom", "DATE_FORMAT(date,'%d/%m/%Y') AS date"));
+	if(isset($_POST['setMailForTournament']))
+	{
+		$mail = $_POST['mail'];
+		if(filter_var($mail, FILTER_VALIDATE_EMAIL))
+		{
+			$nbResults = mysqli_fetch_row($connexionDatabase->selectDb(array("club_inscrit_tournoi"), array("COUNT(*)"), "mail = ".$mail));
+			if($nbResults[0] == 1)
+				$addTournoi = TRUE;
+			else
+				Message::showErrorMessage("Vous ne vous êtes jamais inscrit avec ce tournoi.");
+		}
+		else
+			Message::showErrorMessage("L'adresse mail est éronnée.");
+	}
+	if(isset($addTournoi))
+	{
+		echo'<div id="nouveauTournoi"><br/><h3>Inscription tournoi</h3><br/>Liste des tournois : ';
+		
+		$request = $connexionDatabase->selectDb(array("club_tournoi"), 
+							array("*", "DATE_FORMAT(date,'%d/%m/%Y') AS date"),
+								 "NOT EXISTS(SELECT * FROM club_inscrit_tournoi 
+								 	WHERE club_inscrit_tournoi.id_tournoi = club_tournoi.id_tournoi 
+								 	AND id_inscrit_pour_tournoi = ".$id_inscrit.")");
+		
 		while($results = mysqli_fetch_assoc($request))
 		{
 			Form::openInput("tournoi", "checkbox", NULL, $results['id_tournoi']);
 			Form::closeInput();	
 			echo $results['nom']."(".$results['date'].")";							
 		}
-		echo'<hr/>';
+	}	
+		echo'Si vous vous êtes déjà inscrit à un tournois et que vous souhaitez vous inscrire à d\'autres tournois cliquez ici ';
+		Form::addRadioButton("type", "ajoutTournoi", "afficheFormulaireAjoutTournoi()");
+		echo' sinon cliquez ici ';
+		Form::addRadioButton("type", "nouveauTournoi", "afficheFormulaireNouveauTournoi()");
+		echo'<div id="ajoutTournoi"><br/>';
+			Form::openForm(NULL, "POST", "labelMail");
+			Form::openInput("mail", "text", "Mail utilisé pour les anciennes inscriptions :");
+			Form::closeInput(TRUE, TRUE);
+			Form::closeForm("setMailForTournament", "Ajouter les tournois");			
+		echo'</div>';
+		echo'<div id="nouveauTournoi"><br/><h3>Inscription tournoi</h3><br/>Liste des tournois : ';
+		$request = $connexionDatabase->selectDb(array("club_tournoi"), array("id_tournoi","nom", "DATE_FORMAT(date,'%d/%m/%Y') AS date"));
+		while($results = mysqli_fetch_assoc($request))
+		{
+			Form::openInput("tournoi", "checkbox", NULL, $results['id_tournoi']);
+			Form::closeInput();	
+			echo $results['nom']."(".$results['date'].")";							
+		}
+
+		echo'<hr/>';		
 		Form::openForm(NULL, "post");
 		echo'Sexe : Homme';
 		Form::addRadioButton("sexe", "h");
@@ -126,13 +159,7 @@
 		
 		Form::openInput("anneeNaissance", "text", NULL, NULL, 4);
 		Form::closeInput(TRUE, TRUE);
-		
-		Form::openInput("villeNaissance", "text", "Ville de naissance: ", NULL, 25);
-		Form::closeInput(TRUE);
-		
-		Form::openInput("codePostalNaissance", "text", "Code postal du lieu de naissance : ", NULL, 5);
-		Form::closeInput(TRUE, TRUE);
-		
+				
 		Form::openInput("numero", "text", "Numéro portable: ", NULL, 12);
 		Form::closeInput(TRUE, TRUE);
 		
@@ -148,9 +175,9 @@
 		Form::openInput("codePostal", "text", "Code Postal : ", NULL, 5);
 		Form::closeInput(TRUE, TRUE);
 		echo'Êtes-vous licencié ? Non';
-		Form::addRadioButton("formulaire", "nonlicencie", "cacheSuiteFormTournoi()");		
+		Form::addRadioButton("formulaire", 0, "cacheSuiteFormTournoi()");		
 		echo' Oui ';
-		Form::addRadioButton("formulaire", "licencie", "afficheSuiteFormTournoi()");
+		Form::addRadioButton("formulaire", 1, "afficheSuiteFormTournoi()");
 		echo'<br/><div id="formulaireTournament">';
 		Form::openInput("club", "text", "Club : ", NULL, 25);
 		Form::closeInput(TRUE, TRUE);
@@ -158,6 +185,7 @@
 		Form::closeInput(TRUE, TRUE);
 		echo'</div>';
 		Form::closeForm("registerTournament", "S'enregistrer");
+		echo'</div>';
 ?>
 </body>
 </html>

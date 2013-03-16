@@ -20,3 +20,15 @@ function cacheSuiteFormTournoi()
 {
 	document.getElementById("formulaireTournament").style.display = "none";
 }
+
+function afficheFormulaireAjoutTournoi()
+{
+	document.getElementById("ajoutTournoi").style.display = "block";
+	document.getElementById("nouveauTournoi").style.display = "none";
+}
+
+function afficheFormulaireNouveauTournoi()
+{
+	document.getElementById("nouveauTournoi").style.display = "block";
+	document.getElementById("ajoutTournoi").style.display = "none";
+}

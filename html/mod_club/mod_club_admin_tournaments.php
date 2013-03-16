@@ -120,7 +120,7 @@
             <th>Supprimer</th>
         </tr>
 <?php
-		$request = $connexionDatabase->selectDb("club_tournoi", array("id_tournoi","nom", "DATE_FORMAT(date,'%d/%m/%Y') AS date"));
+		$request = $connexionDatabase->selectDb(array("club_tournoi"), array("id_tournoi","nom", "DATE_FORMAT(date,'%d/%m/%Y') AS date"));
 		while($results = mysqli_fetch_assoc($request))
 		{
 			echo"<tr>

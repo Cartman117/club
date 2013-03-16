@@ -169,18 +169,18 @@
 	}
 	if(!$register)
 	{
-		echo'Êtes vous mineur';
+		echo'Êtes vous mineur ';
 		Form::addRadioButton("formulaire", "mineur", "afficheFormulaireMineur()");
 		echo' ou  majeur ';
 		Form::addRadioButton("formulaire", "majeur", "afficheFormulaireMajeur()");
-		echo'<br/><div id="mineur">';
+		echo'<br/><hr/><div id="mineur">';
 		
 		Form::openForm(NULL, "post");
-		echo'Sexe : Homme';
+		echo'Sexe : Homme ';
 		Form::addRadioButton("sexe", 1);
 		echo' Femme ';
 		Form::addRadioButton("sexe", 0);
-		echo'<br/>';
+		echo'<br/><br/>';
 		Form::openInput("nomEnfant", "text", "Nom enfant: ", NULL, 25);
 		Form::closeInput(TRUE, TRUE);
 		
@@ -195,11 +195,11 @@
 		Form::openInput("anneeNaissance", "text", NULL, NULL, 4);
 		Form::closeInput(TRUE, TRUE);
 		
-		Form::openInput("villeNaissance", "text", "Ville de naissance: ", NULL, 25);
-		Form::closeInput(TRUE);
-		
 		Form::openInput("codePostalNaissance", "text", "Code postal du lieu de naissance : ", NULL, 5);
 		Form::closeInput(TRUE, TRUE);
+		
+		Form::openInput("villeNaissance", "text", "Ville de naissance: ", NULL, 25);
+		Form::closeInput(TRUE, TRUE);		
 		
 		Form::openInput("nomResponsable", "text", "Nom responsable: ", NULL, 25);
 		Form::closeInput(TRUE, TRUE);
@@ -213,15 +213,15 @@
 		Form::openInput("nomRue", "text", "Nom rue : ", NULL, 50);
 		Form::closeInput(TRUE, TRUE);
 		
-		Form::openInput("ville", "text", "Ville : ", NULL, 25);
-		Form::closeInput(TRUE);
-		
 		Form::openInput("codePostal", "text", "Code postal : ", NULL, 5);
+		Form::closeInput(TRUE, TRUE);
+		
+		Form::openInput("ville", "text", "Ville : ", NULL, 25);
 		Form::closeInput(TRUE, TRUE);
 		
 		Form::openInput("photos", "checkbox");
 		Form::closeInput();
-		echo'J\'autorise les photos sur lesquelles mon enfant sera présent à être publiées sur ce site.<br/> Cette autorisation est obligatoire pour la validation de cette inscription.<br/>';
+		echo' J\'autorise les photos sur lesquelles mon enfant sera présent à être publiées sur ce site.<br/> Cette autorisation est obligatoire pour la validation de cette inscription.<br/>';
 		
 		Form::closeForm("registerMineur", "S'enregistrer");
 		echo'</div>
@@ -247,12 +247,12 @@
 		Form::openInput("anneeNaissance", "text", NULL, NULL, 4);
 		Form::closeInput(TRUE, TRUE);
 		
-		Form::openInput("villeNaissance", "text", "Ville de naissance: ", NULL, 25);
-		Form::closeInput(TRUE);
-		
 		Form::openInput("codePostalNaissance", "text", "Code postal du lieu de naissance : ", NULL, 5);
 		Form::closeInput(TRUE, TRUE);
 		
+		Form::openInput("villeNaissance", "text", "Ville de naissance: ", NULL, 25);
+		Form::closeInput(TRUE, TRUE);
+				
 		Form::openInput("numero", "text", "Numéro portable: ", NULL, 12);
 		Form::closeInput(TRUE, TRUE);
 		
@@ -262,15 +262,15 @@
 		Form::openInput("nomRue", "text", "Nom rue : ", NULL, 50);
 		Form::closeInput(TRUE, TRUE);
 		
-		Form::openInput("ville", "text", "Ville : ", NULL, 25);
-		Form::closeInput(TRUE, TRUE);
-		
 		Form::openInput("codePostal", "text", "Code Postal : ", NULL, 5);
 		Form::closeInput(TRUE, TRUE);
 		
+		Form::openInput("ville", "text", "Ville : ", NULL, 25);
+		Form::closeInput(TRUE, TRUE);		
+		
 		Form::openInput("photos", "checkbox");
 		Form::closeInput();
-		echo'J\'autorise les photos sur lesquelles je suis présent(e) à être publiées sur ce site.<br/> Cette autorisation est obligatoire pour la validation de votre inscription.<br/>';
+		echo' J\'autorise les photos sur lesquelles je suis présent(e) à être publiées sur ce site.<br/> Cette autorisation est obligatoire pour la validation de votre inscription.<br/>';
 	
 		Form::closeForm("registerMajeur", "S'enregistrer");
 	}

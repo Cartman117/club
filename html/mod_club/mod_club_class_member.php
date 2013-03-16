@@ -11,7 +11,7 @@
 				try
 				{
 					$connexionDatabase = Database::getInstance();
-					$infosMember = $connexionDatabase->selectDb("club_inscrit", 
+					$infosMember = $connexionDatabase->selectDb(array("club_inscrit"), 
 						array("*", "DATE_FORMAT(date_naiss,'%d-%m-%Y') AS date_naiss"), "id_inscrit = ".$id);
 							
 					$infosMember = mysqli_fetch_assoc($infosMember);
@@ -88,7 +88,7 @@
 			if(is_numeric($id))
 			{
 				$connexionDatabase = Database::getInstance();
-				$nbResults = mysqli_fetch_row($connexionDatabase->selectDb("club_inscrit", array("COUNT(*)"), "id_compte = ".$id));
+				$nbResults = mysqli_fetch_row($connexionDatabase->selectDb(array("club_inscrit"), array("COUNT(*)"), "id_compte = ".$id));
 				if($nbResults[0] == 1)
 					return FALSE;
 				else

@@ -5,12 +5,17 @@
 		private static $tableauJours = array("Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche");
 		
          /* Constructeur de la classe Form qui permet de créer un formulaire */
-		 public static function openForm($action = NULL, $method)
+		 public static function openForm($action = NULL, $method, $styleName = NULL)
 		 {
-			 if($method == NULL)
-				 echo'Formulaire impossible à créer';
-			 else
-			 	 echo"<form action=\"".$action."\" method=\"".$method."\">";
+			if($method == NULL)
+				echo'Formulaire impossible à créer';
+			else
+			{
+				echo"<form action=\"".$action."\" method=\"".$method."\"";
+				if($styleName != NULL)
+					echo" id=\"".$styleName."\"";
+			 	echo">";
+			}
 		 } 
 		 /* Permet d'ouvrir un input.
 		 	@param name Le nom du input.
