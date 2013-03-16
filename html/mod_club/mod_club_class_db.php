@@ -101,7 +101,25 @@
 					else
 						throw new Exception("Veuillez remplir tous les champs.");
 				}
-				$request .= " FROM ".$nomTable;
+				$i = 1;
+				if(!empty($nomTable))
+				{
+					$request .= " FROM ";
+					foreach($nomTable as &$value)
+					{
+						if($this->checkEmptyValue($value))
+						{
+							$request .= $value;
+						
+							if(count($nomTable) != $i)
+								$request .= ", ";
+							
+							$i++;
+						}
+					}
+				}
+				else
+					throw new Exception("Nom de table incorrect.");
 			}
 			else
 				throw new Exception("Aucune donnée a été reçue, veuillez réessayer");
@@ -111,13 +129,14 @@
 						
 			try
 			{
+				
 				return $this->connexion->query($request);
 			}
 			catch(Exception $e)
 			{
-				throw new Exception("Une erreur s'est produite lors de l'enregistrement de vos données. Veuillez réessayer.");
+				throw new Exception("Une erreur s'est produite lors de la sélection de vos données. Veuillez réessayer.");
 			}
-		}		
+		}
 		
 		public function updateDb($tableName, $column, $value, $condition = NULL)
 		{
