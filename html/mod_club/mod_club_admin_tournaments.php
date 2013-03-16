@@ -38,7 +38,6 @@
 		
 	if(isset($_POST['addTournament']))
 	{
-		$connexionDatabase = Database::getInstance();
 		if(Form::checkValues($_POST))
 		{
 			if(verifyText($_POST['nomTournoi']))
@@ -78,9 +77,25 @@
 		else
 			Message::showErrorMessage("Veuillez remplir tous les champs.");
 	}
+	if(isset($_POST['exportTournament']))
+	{
+		if(Form::checkValues($_POST))
+		{
+			if(is_numeric($_POST['id']))
+			{
+				try
+				{
+					exportExcel($_POST['id']);
+				}
+				catch(Exception $e)
+				{
+					Message::showErrorMessage("Une erreur s'est produite lors de l'exportation du tournoi. Veuillez réessayer.");
+				}
+			}
+		}
+	}
 	if(isset($_POST['deleteTournament']))
 	{
-		$connexionDatabase = Database::getInstance();
 		if(Form::checkValues($_POST))
 		{
 			if(is_numeric($_POST['id']))
@@ -117,15 +132,21 @@
         <tr>
         	<th>Nom</th>
             <th>Date</th>
+            <th>Exporter</th>
             <th>Supprimer</th>
         </tr>
 <?php
-		$request = $connexionDatabase->selectDb(array("club_tournoi"), array("id_tournoi","nom", "DATE_FORMAT(date,'%d/%m/%Y') AS date"));
+		$request = $connexionDatabase->selectDb("club_tournoi", array("id_tournoi","nom", "DATE_FORMAT(date,'%d/%m/%Y') AS date"));
 		while($results = mysqli_fetch_assoc($request))
 		{
 			echo"<tr>
 					<td>".$results['nom']."</td>
 					<td>".$results['date']."</td>
+					<td><form action=\"\" method=\"post\">
+						<input type=\"hidden\" value=\"".$results['id_tournoi']."\" name=\"id\"/>
+						<input type=\"submit\" name=\"exportTournament\" value=\"Supprimer\"/>
+						</form>
+					</td>
 					<td><form action=\"\" method=\"post\">
 						<input type=\"hidden\" value=\"".$results['id_tournoi']."\" name=\"id\"/>
 						<input type=\"submit\" name=\"deleteTournament\" value=\"Supprimer\"/>

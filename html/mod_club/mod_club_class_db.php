@@ -129,14 +129,13 @@
 						
 			try
 			{
-				
 				return $this->connexion->query($request);
 			}
 			catch(Exception $e)
 			{
 				throw new Exception("Une erreur s'est produite lors de la sélection de vos données. Veuillez réessayer.");
 			}
-		}
+		}		
 		
 		public function updateDb($tableName, $column, $value, $condition = NULL)
 		{
@@ -199,6 +198,31 @@
 		private function checkEmptyValue($value)
 		{
 			return $value.trim("") != "";
+		}
+		
+		//Fonction qui permet de recuperer le nom du tournoi pour renommer le fichier Excel qu'on va créer
+		private function getTournamentName($idTournoi)
+		{
+			return $this->selectDb(array("club_tournoi"),array("nom"), "id_tournoi = '".$idTournoi."'");
+		}
+		
+		//Fonction qui permet d'exporter la table passé en paramètre dans un fichier Excel	
+		private function exportationExcel($idTournoi)
+		{
+			$file = 'export';
+			$csv_output = "";
+			$csv_output = "Nom;Prenom;Date de naissance;Mail;Numéro téléphone responsable;Numero de rue;Nom de rue;Code Postal;Ville;Club;Sexe;\n";
+			$values = $this->selectDb(array("club_inscrit_pour_tournoi inscrit", "club_inscrit_tournoi tournoi"), array("nom", "prenom", "date_naiss", "mail", "num_tel_resp", "num_rue", "nom_rue", "code_postal", "ville", "club", "sexe"), "inscrit.id_inscrit_pour_tournoi = tournoi.id_inscrit_pour_tournoi AND id_tournoi='".$idTournoi."'");
+			while ($rowr = mysqli_fetch_row($values))
+			{
+				for ($j=0;$j<11;$j++)
+				{
+					$csv_output .= $rowr[$j]."; ";
+				}
+				$csv_output .= "\n";
+			}
+			$filename = $file."_".date("Y-m-d_H-i",time());
+			return $csv_output;
 		}
 	}
 ?>
