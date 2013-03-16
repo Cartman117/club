@@ -119,9 +119,10 @@
 				echo"Impossible de fermer le formulaire.";
 			else
 			{	
+				echo'<div class="marginLeft"><br/>';
 				Form::openInput($submitName, "submit", NULL, $submitValue, NULL, FALSE, TRUE);
 				Form::closeInput();
-				echo'</form>';
+				echo'</div></form>';
 			}
 		 }
 		 

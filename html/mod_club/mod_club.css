@@ -18,11 +18,14 @@ input[type="submit"]
 {
     border:none;
     color:white;
-    background-color:#5A5A5A;
+    background-color:#3A3A3A;
     width:200px;
     cursor:pointer;
 }
-
+.marginLeft
+{
+	margin-left:100px;
+}
 #formMail label
 {
 	width:300px;
