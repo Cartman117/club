@@ -1,8 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Validation des membres</title>
+<title>Gestion des tournois</title>
 	<link href="./mod_club.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -77,23 +77,6 @@
 		else
 			Message::showErrorMessage("Veuillez remplir tous les champs.");
 	}
-	if(isset($_POST['exportTournament']))
-	{
-		if(Form::checkValues($_POST))
-		{
-			if(is_numeric($_POST['id']))
-			{
-				try
-				{
-					exportExcel($_POST['id']);
-				}
-				catch(Exception $e)
-				{
-					Message::showErrorMessage("Une erreur s'est produite lors de l'exportation du tournoi. Veuillez réessayer.");
-				}
-			}
-		}
-	}
 	if(isset($_POST['deleteTournament']))
 	{
 		if(Form::checkValues($_POST))
@@ -136,15 +119,15 @@
             <th>Supprimer</th>
         </tr>
 <?php
-		$request = $connexionDatabase->selectDb("club_tournoi", array("id_tournoi","nom", "DATE_FORMAT(date,'%d/%m/%Y') AS date"));
+		$request = $connexionDatabase->selectDb(array("club_tournoi"), array("id_tournoi","nom", "DATE_FORMAT(date,'%d/%m/%Y') AS date"));
 		while($results = mysqli_fetch_assoc($request))
 		{
 			echo"<tr>
 					<td>".$results['nom']."</td>
 					<td>".$results['date']."</td>
-					<td><form action=\"\" method=\"post\">
+					<td><form action=\"mod_club_functions.php\" method=\"post\">
 						<input type=\"hidden\" value=\"".$results['id_tournoi']."\" name=\"id\"/>
-						<input type=\"submit\" name=\"exportTournament\" value=\"Supprimer\"/>
+						<input type=\"submit\" name=\"exportTournament\" value=\"Exporter\"/>
 						</form>
 					</td>
 					<td><form action=\"\" method=\"post\">

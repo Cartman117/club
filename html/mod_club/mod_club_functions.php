@@ -32,15 +32,34 @@
 	}
 	
 	function exportExcel($idTournoi)
-	{
-		header("Content-type: application/vnd.ms-excel");
-		header("Content-disposition: csv" . date("Y-m-d") . ".csv");
-		include "mod_club_class_db.php";
-		$link = Database::getInstance();
-		$tournamentName = $link->getTournamentName($idTournoi);
-		header("Content-disposition: filename=".$tournamentName.".xls");
-		$csv_output = $link->exportationExcel($idTournoi);
+	{	
+		require("./mod_club_class_message.php");
+		require("./mod_club_class_db.php");
+		$connexionDatabase = Database::getInstance();
+		$tournament = $connexionDatabase->getTournamentName($idTournoi);
+		$tournamentName = $tournament['nom'].".csv";
+			
+		header('Content-Encoding: UTF-8');
+		header("Content-type: application/vnd.ms-excel; charset=UTF-8");
+		header("Content-disposition: attachment; filename=$tournamentName");
+		
+		$csv_output = $connexionDatabase->exportationExcel($idTournoi);
 		print $csv_output;
 		exit;
+	}
+	
+	if(isset($_POST['exportTournament']))
+	{
+		if(isset($_POST['id']) && (is_numeric($_POST['id'])))
+		{
+			try
+			{
+				exportExcel($_POST['id']);
+			}
+			catch(Exception $e)
+			{
+				Message::showErrorMessage("Une erreur s'est produite lors de l'exportation du tournoi. Veuillez réessayer.");
+			}
+		}
 	}
 ?>

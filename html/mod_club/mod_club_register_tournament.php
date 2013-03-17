@@ -1,8 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Club - Enregistrement</title>
+<title>Club - Inscription tournois</title>
 	<link href="./mod_club.css" rel="stylesheet" type="text/css" />
     <script src="./mod_club_form.js"></script>
 </head>
@@ -127,9 +127,10 @@
 		$mail = $_POST['mail'];
 		if(filter_var($mail, FILTER_VALIDATE_EMAIL))
 		{
-			$resultQuery = $connexionDatabase->selectDb(array("club_inscrit_pour_tournoi"), array("COUNT(*)"), "mail = '".$mail."'");
-			$nbResults = mysqli_fetch_row($resultQuery);
-			if($nbResults[0] == 1)
+			$resultQuery = $connexionDatabase->selectDb(array("club_inscrit_pour_tournoi"), array("id_inscrit_pour_tournoi"), "mail = '".$mail."'");
+			$nbResults = mysqli_fetch_assoc($resultQuery);
+			$id_inscrit = $nbResults['id_inscrit_pour_tournoi'];
+			if($id_inscrit != NULL && is_numeric($id_inscrit))
 				$addTournoi = TRUE;
 			else
 				Message::showErrorMessage("Vous ne vous êtes jamais inscrit à un tournoi avec ce mail.");
@@ -146,13 +147,15 @@
 								 "NOT EXISTS(SELECT * FROM club_inscrit_tournoi 
 								 	WHERE club_inscrit_tournoi.id_tournoi = club_tournoi.id_tournoi 
 								 	AND id_inscrit_pour_tournoi = ".$id_inscrit.")");
-		
+		Form::openForm(NULL, "POST");
 		while($results = mysqli_fetch_assoc($request))
-		{
+		{			
 			Form::openInput("tournoi[]", "checkbox", NULL, $results['id_tournoi']);
 			Form::closeInput();	
 			echo $results['nom']."(".$results['date'].")";							
 		}
+		Form::closeForm("addTournament", "Ajouter les tournois");
+		echo'</div>';
 	}
 	else	
 	{

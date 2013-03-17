@@ -206,13 +206,13 @@
 		}
 		
 		//Fonction qui permet de recuperer le nom du tournoi pour renommer le fichier Excel qu'on va créer
-		private function getTournamentName($idTournoi)
+		public function getTournamentName($idTournoi)
 		{
-			return $this->selectDb(array("club_tournoi"),array("nom"), "id_tournoi = '".$idTournoi."'");
+			return mysqli_fetch_assoc($this->selectDb(array("club_tournoi"),array("nom"), "id_tournoi = '".$idTournoi."'"));
 		}
 		
 		//Fonction qui permet d'exporter la table passé en paramètre dans un fichier Excel	
-		private function exportationExcel($idTournoi)
+		public function exportationExcel($idTournoi)
 		{
 			$file = 'export';
 			$csv_output = "";
@@ -222,11 +222,10 @@
 			{
 				for ($j=0;$j<11;$j++)
 				{
-					$csv_output .= $rowr[$j]."; ";
+					$csv_output .= html_entity_decode($rowr[$j])."; ";
 				}
 				$csv_output .= "\n";
 			}
-			$filename = $file."_".date("Y-m-d_H-i",time());
 			return $csv_output;
 		}
 	}
