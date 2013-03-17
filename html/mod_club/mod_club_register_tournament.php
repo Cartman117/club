@@ -33,6 +33,7 @@
 	}
 	
 	$connexionDatabase = Database::getInstance();
+	$addTournament = FALSE;
 	if(isset($_POST['registerTournament']))
 	{
 		if(!empty($_POST['tournoi']))
@@ -101,7 +102,7 @@
 								}
 								catch(Exception $e)
 								{
-									Message::showErrorMessage($e);
+									Message::showErrorMessage("Une erreur s'est produite lors de votre inscription aux tournois.<br/>Il est possible que vous ayez déjà utilisé l'adresse mail indiquée. Si c'est le cas nous vous invitons à  choisir l'autre option d'inscription aux tournois.");
 								}
 							}
 							else
@@ -131,30 +132,61 @@
 			$nbResults = mysqli_fetch_assoc($resultQuery);
 			$id_inscrit = $nbResults['id_inscrit_pour_tournoi'];
 			if($id_inscrit != NULL && is_numeric($id_inscrit))
-				$addTournoi = TRUE;
+				$addTournament = TRUE;
 			else
-				Message::showErrorMessage("Vous ne vous êtes jamais inscrit à un tournoi avec ce mail.");
+				Message::showErrorMessage("Vous ne vous êtes jamais inscrit à un tournoi avec cette adresse mail.");
 		}
 		else
 			Message::showErrorMessage("L'adresse mail est éronnée.");
 	}
-	if(isset($addTournoi))
+	
+	if(isset($_POST['addTournament']) && is_numeric($_POST['id_inscrit']))
 	{
-		echo'<div id="nouveauTournoi"><br/><h3>Inscription tournoi</h3><br/>Liste des tournois : ';
+		try
+		{
+			foreach($_POST['tournoi'] as &$value)
+			{
+				if(is_numeric($value))
+				{
+					$success = $connexionDatabase->insertDb("club_inscrit_tournoi", NULL,
+											 array($_POST['id_inscrit'],$value));
+					if(!$success)
+						throw new Exception();
+				}
+			}
+			Message::showSuccessMessage("Votre inscription au(x) tournoi(s) s'est effectué correctement.");
+		}
+		catch(Exception $e)
+		{
+			Message::showErrorMessage("Une erreur s'est produite lors de votre inscription aux tournois.<br/>Il est possible que vous ayez déjà utilisé l'adresse mail indiquée. Si c'est le cas nous vous invitons à  choisir l'autre option d'inscription aux tournois.");
+		}
+	}
+	if($addTournament)
+	{
+		echo'<div><br/><h3>Inscription tournoi</h3>';
 		
 		$request = $connexionDatabase->selectDb(array("club_tournoi"), 
 							array("*", "DATE_FORMAT(date,'%d/%m/%Y') AS date"),
 								 "NOT EXISTS(SELECT * FROM club_inscrit_tournoi 
 								 	WHERE club_inscrit_tournoi.id_tournoi = club_tournoi.id_tournoi 
 								 	AND id_inscrit_pour_tournoi = ".$id_inscrit.")");
-		Form::openForm(NULL, "POST");
-		while($results = mysqli_fetch_assoc($request))
-		{			
-			Form::openInput("tournoi[]", "checkbox", NULL, $results['id_tournoi']);
-			Form::closeInput();	
-			echo $results['nom']."(".$results['date'].")";							
+		$nb = mysqli_num_rows($request);
+		if($nb > 0)
+		{
+			echo'<br/>Liste des tournois : ';
+			Form::openForm(NULL, "POST");
+			while($results = mysqli_fetch_assoc($request))
+			{			
+				Form::openInput("tournoi[]", "checkbox", NULL, $results['id_tournoi']);
+				Form::closeInput();	
+				echo " ".$results['nom']."(".$results['date'].")";							
+			}
+			Form::openInput("id_inscrit", "hidden", NULL, $id_inscrit);
+			Form::closeInput(TRUE);
+			Form::closeForm("addTournament", "Ajouter les tournois");
 		}
-		Form::closeForm("addTournament", "Ajouter les tournois");
+		else
+			Message::showInformationMessage("Aucun tournoi n'est disponible pour le moment.");
 		echo'</div>';
 	}
 	else	
@@ -171,70 +203,75 @@
 		echo'</div>';
 				
 		Form::openForm(NULL, "post");
-		echo'<div id="nouveauTournoi"><br/><h3>Inscription tournoi</h3><br/>Liste des tournois : ';
+		echo'<div id="nouveauTournoi"><br/><h3>Inscription tournoi</h3>';
 		
 		$request = $connexionDatabase->selectDb(array("club_tournoi"), array("id_tournoi","nom", "DATE_FORMAT(date,'%d/%m/%Y') AS date"));
-		
-		while($results = mysqli_fetch_assoc($request))
-		{
-			Form::openInput("tournoi[]", "checkbox", NULL, $results['id_tournoi']);
-			Form::closeInput();	
-			echo " ".$results['nom']."(".$results['date'].") ";							
+		$nb = mysqli_num_rows($request);
+		if($nb > 0)
+		{	
+			echo'<br/>Liste des tournois : ';
+			while($results = mysqli_fetch_assoc($request))
+			{
+				Form::openInput("tournoi[]", "checkbox", NULL, $results['id_tournoi']);
+				Form::closeInput();	
+				echo " ".$results['nom']."(".$results['date'].") ";							
+			}
+			echo'<hr/>';
+			echo'Sexe : Homme';
+			Form::addRadioButton("sexe", "h");
+			echo' Femme ';
+			Form::addRadioButton("sexe", "f");
+			echo'<br/>';
+			
+			Form::openInput("nom", "text", "Nom: ", NULL, 25);
+			Form::closeInput(TRUE, TRUE);
+			
+			Form::openInput("prenom", "text", "Prénom: ", NULL, 25);
+			Form::closeInput(TRUE, TRUE);
+			
+			Form::openInput("mail", "text", "Mail: ", NULL, 50);
+			Form::closeInput(TRUE, TRUE);
+			
+			Form::openInput("jourNaissance", "text", "Date de naissance (jj/mm/aaaa) : ", NULL, 2, TRUE); 
+			Form::closeInput(TRUE);
+			
+			Form::addSelect("moisNaissance", "mois");
+			
+			Form::openInput("anneeNaissance", "text", NULL, NULL, 4);
+			Form::closeInput(TRUE, TRUE);
+					
+			Form::openInput("numero", "text", "Numéro portable: ", NULL, 12);
+			Form::closeInput(TRUE, TRUE);
+			
+			Form::openInput("numRue", "text", "Numéro rue : ", NULL, 3);
+			Form::closeInput(TRUE, TRUE);
+			
+			Form::openInput("nomRue", "text", "Nom rue : ", NULL, 50);
+			Form::closeInput(TRUE, TRUE);
+			
+			Form::openInput("ville", "text", "Ville : ", NULL, 30);
+			Form::closeInput(TRUE, TRUE);
+			
+			Form::openInput("codePostal", "text", "Code Postal : ", NULL, 5);
+			Form::closeInput(TRUE, TRUE);
+			
+			echo'Êtes-vous licencié ? Non';
+			Form::addRadioButton("licencie", 0, "cacheSuiteFormTournoi()");		
+			echo' Oui ';
+			Form::addRadioButton("licencie", 1, "afficheSuiteFormTournoi()");
+			echo'<br/><div id="formulaireTournament">';
+			
+			Form::openInput("club", "text", "Club : ", NULL, 25);
+			Form::closeInput(FALSE, TRUE);
+			
+			Form::openInput("numLicence", "text", "Numéro de licence : ", NULL, 20);
+			Form::closeInput(FALSE, TRUE);
+			
+			echo'</div>';
+			Form::closeForm("registerTournament", "S'enregistrer");
 		}
-
-		echo'<hr/>';
-		echo'Sexe : Homme';
-		Form::addRadioButton("sexe", "h");
-		echo' Femme ';
-		Form::addRadioButton("sexe", "f");
-		echo'<br/>';
-		
-		Form::openInput("nom", "text", "Nom: ", NULL, 25);
-		Form::closeInput(TRUE, TRUE);
-		
-		Form::openInput("prenom", "text", "Prénom: ", NULL, 25);
-		Form::closeInput(TRUE, TRUE);
-		
-		Form::openInput("mail", "text", "Mail: ", NULL, 50);
-		Form::closeInput(TRUE, TRUE);
-		
-		Form::openInput("jourNaissance", "text", "Date de naissance (jj/mm/aaaa) : ", NULL, 2, TRUE); 
-		Form::closeInput(TRUE);
-		
-		Form::addSelect("moisNaissance", "mois");
-		
-		Form::openInput("anneeNaissance", "text", NULL, NULL, 4);
-		Form::closeInput(TRUE, TRUE);
-				
-		Form::openInput("numero", "text", "Numéro portable: ", NULL, 12);
-		Form::closeInput(TRUE, TRUE);
-		
-		Form::openInput("numRue", "text", "Numéro rue : ", NULL, 3);
-		Form::closeInput(TRUE, TRUE);
-		
-		Form::openInput("nomRue", "text", "Nom rue : ", NULL, 50);
-		Form::closeInput(TRUE, TRUE);
-		
-		Form::openInput("ville", "text", "Ville : ", NULL, 30);
-		Form::closeInput(TRUE, TRUE);
-		
-		Form::openInput("codePostal", "text", "Code Postal : ", NULL, 5);
-		Form::closeInput(TRUE, TRUE);
-		
-		echo'Êtes-vous licencié ? Non';
-		Form::addRadioButton("licencie", 0, "cacheSuiteFormTournoi()");		
-		echo' Oui ';
-		Form::addRadioButton("licencie", 1, "afficheSuiteFormTournoi()");
-		echo'<br/><div id="formulaireTournament">';
-		
-		Form::openInput("club", "text", "Club : ", NULL, 25);
-		Form::closeInput(FALSE, TRUE);
-		
-		Form::openInput("numLicence", "text", "Numéro de licence : ", NULL, 20);
-		Form::closeInput(FALSE, TRUE);
-		
-		echo'</div>';
-		Form::closeForm("registerTournament", "S'enregistrer");
+		else
+			Message::showInformationMessage("Aucun tournoi n'est disponible pour le moment.");
 		echo'</div>';
 	}
 ?>
