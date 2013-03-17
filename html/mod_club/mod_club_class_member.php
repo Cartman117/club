@@ -53,6 +53,41 @@
 			echo"<br/>Adresse : ".$this->streetNumber.", ".$this->streetName."<br/>".$this->codePostal." ".$this->city."</p>";
 		}
 		
+		function getPrenom()
+		{
+			return $this->firstName;
+		}
+		
+		function getNom()
+		{
+			return $this->firstName;
+		}
+		
+		function getCodePostal()
+		{
+			return $this->codePostal;
+		}	
+		
+		function getNumTel()
+		{
+			return $this->phoneNumber;
+		}	
+			
+		function getNumRue()
+		{
+			return $this->streetNumber;
+		}			
+			
+		function getNomRue()
+		{
+			return $this->streetName;
+		}
+		
+		function getVille()
+		{
+			return $this->city;
+		}
+		
 		function isMajeur()
 		{
 			$dateActuelle = new DateTime("now");
@@ -62,13 +97,13 @@
 		
 		function isLicencie()
 		{
-			return $this->licencie;
+			return !$this->licencie;
 		}
 		
 		
 		function validateLicence()
 		{
-			if(!$this->isLicencie())
+			if($this->isLicencie())
 			{
 				$connexionDatabase = Database::getInstance();
 				$connexionDatabase->updateDb("club_inscrit", "licencie", 1, "id_inscrit = ".$this->id);
