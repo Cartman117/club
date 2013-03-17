@@ -191,7 +191,7 @@
 	}
 	else	
 	{
-		echo'Si vous vous êtes déjà inscrit à un tournoi et que vous souhaitez vous inscrire à d\'autres tournois cliquez ici ';
+		Message::showInformationMessage("Si vous ne vous êtes jamais inscrit à un tournoi, veuillez sélectionner la première option d'inscription. <br/>Si vous vous êtes déjà inscrit, veuillez sélectionner la deuxième.");
 		Form::addRadioButton("type", "ajoutTournoi", "afficheFormulaireAjoutTournoi()");
 		echo' sinon cliquez ici ';
 		Form::addRadioButton("type", "nouveauTournoi", "afficheFormulaireNouveauTournoi()");
