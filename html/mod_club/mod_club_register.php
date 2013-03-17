@@ -72,6 +72,10 @@
 												$_POST['codePostalNaissance'], $_POST['ville'], $_POST['codePostal'],
 												$_POST['nomRue'], $_POST['numRue'], $_POST['nomResponsable'],
 												$_POST['numResponsable'], 0, $_POST['sexe']));
+	if (isset($_POST['pdf']))
+	{
+		exportationPDFMineur($_POST['nomEnfant'], $_POST['prenomEnfant'], $dateNaissance->format("d/m/Y"), $_POST['villeNaissance'], $_POST['codePostalNaissance'], $_POST['ville'], $_POST['codePostal'], $_POST['nomRue'], $_POST['numRue'], $_POST['nomResponsable'], 								$_POST['numResponsable']);
+	}
 												
 										Message::showSuccessMessage("Votre inscription s'est effectué correctement.");
 										$register = TRUE;
@@ -137,6 +141,10 @@
 												$_POST['prenom'], $dateNaissance->format("Y-m-d"),$_POST['villeNaissance'],
 												$_POST['codePostalNaissance'], $_POST['ville'], $_POST['codePostal'],
 												$_POST['nomRue'], $_POST['numRue'], $_POST['numero'], 0, $_POST['sexe']));
+	if (isset($_POST['pdf']))
+	{
+		exportationPDFMajeur($_POST['nom'], $_POST['prenom'], $dateNaissance->format("d/m/Y"), $_POST['villeNaissance'], $_POST['codePostalNaissance'], $_POST['ville'], $_POST['codePostal'], $_POST['nomRue'], $_POST['numRue'], $_POST['numero']);
+	}
 										
 										Message::showSuccessMessage("Votre inscription s'est effectué correctement.");
 										$register = TRUE;
@@ -223,6 +231,10 @@
 		Form::closeInput();
 		echo' J\'autorise les photos sur lesquelles mon enfant sera présent à être publiées sur ce site.<br/> Cette autorisation est obligatoire pour la validation de cette inscription.<br/>';
 		
+		Form::openInput("pdf", "checkbox");
+		Form::closeInput();
+		echo' Je souhaite récupérer un PDF de mon inscription à envoyer au gérant après l\'avoir compléter.<br/>';
+		
 		Form::closeForm("registerMineur", "S'enregistrer");
 		echo'</div>
 		<div id="majeur">';
@@ -271,6 +283,10 @@
 		Form::openInput("photos", "checkbox");
 		Form::closeInput();
 		echo' J\'autorise les photos sur lesquelles je suis présent(e) à être publiées sur ce site.<br/> Cette autorisation est obligatoire pour la validation de votre inscription.<br/>';
+	
+		Form::openInput("pdf", "checkbox");
+		Form::closeInput();
+		echo' Je souhaite récupérer un PDF de mon inscription à envoyer au gérant après l\'avoir compléter.<br/>';
 	
 		Form::closeForm("registerMajeur", "S'enregistrer");
 	}
