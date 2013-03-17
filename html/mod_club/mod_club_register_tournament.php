@@ -29,7 +29,25 @@
 	if ($user->guest != 1)
 	{
 		$member = TRUE;
-		$m = new Member($user->id);		
+		$m = new Member($user->id);
+		$nomForm = $m->getNom();
+		$prenomForm = $m->getPrenom();
+		$phoneForm = $m->getNumTel();
+		$numStreetForm = $m->getNumRue();
+		$nameStreetForm = $m->getNomRue();
+		$cityForm = $m->getVille();
+		$postalCodeForm = $m->getCodePostal();
+	}
+	else
+	{
+		$nomForm = "";
+		$prenomForm = "";
+		$mailForm = "";
+		$phoneForm = "";
+		$numStreetForm = "";
+		$nameStreetForm = "";
+		$cityForm = "";
+		$postalCodeForm = "";
 	}
 	
 	$connexionDatabase = Database::getInstance();
@@ -231,10 +249,10 @@
 			Form::addRadioButton("sexe", "f");
 			echo'<br/>';
 			
-			Form::openInput("nom", "text", "Nom: ", NULL, 25);
+			Form::openInput("nom", "text", "Nom: ", $nomForm, 25);
 			Form::closeInput(TRUE, TRUE);
 			
-			Form::openInput("prenom", "text", "Prénom: ", NULL, 25);
+			Form::openInput("prenom", "text", "Prénom: ", $prenomForm, 25);
 			Form::closeInput(TRUE, TRUE);
 			
 			Form::openInput("mail", "text", "Mail: ", NULL, 50);
@@ -248,19 +266,19 @@
 			Form::openInput("anneeNaissance", "text", NULL, NULL, 4);
 			Form::closeInput(TRUE, TRUE);
 					
-			Form::openInput("numero", "text", "Numéro portable: ", NULL, 12);
+			Form::openInput("numero", "text", "Numéro portable: ", $phoneForm, 12);
 			Form::closeInput(TRUE, TRUE);
 			
-			Form::openInput("numRue", "text", "Numéro rue : ", NULL, 3);
+			Form::openInput("numRue", "text", "Numéro rue : ", $numStreetForm, 3);
 			Form::closeInput(TRUE, TRUE);
 			
-			Form::openInput("nomRue", "text", "Nom rue : ", NULL, 50);
+			Form::openInput("nomRue", "text", "Nom rue : ", $nameStreetForm, 50);
 			Form::closeInput(TRUE, TRUE);
 			
-			Form::openInput("ville", "text", "Ville : ", NULL, 30);
+			Form::openInput("ville", "text", "Ville : ", $cityForm, 30);
 			Form::closeInput(TRUE, TRUE);
 			
-			Form::openInput("codePostal", "text", "Code Postal : ", NULL, 5);
+			Form::openInput("codePostal", "text", "Code Postal : ", $postalCodeForm, 5);
 			Form::closeInput(TRUE, TRUE);
 			
 			echo'Êtes-vous licencié ? Non';
