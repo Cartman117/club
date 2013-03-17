@@ -16,16 +16,16 @@
 							
 					$infosMember = mysqli_fetch_assoc($infosMember);
 					$this->id = $infosMember['id_inscrit'];
-					$this->name = $infosMember['nom'];
-					$this->firstName = $infosMember['prenom'];
+					$this->name = html_entity_decode($infosMember['nom']);
+					$this->firstName = html_entity_decode($infosMember['prenom']);
 					$this->birthday = new DateTime($infosMember['date_naiss']);
-					$this->birthplace = $infosMember['ville_naiss'];
+					$this->birthplace = html_entity_decode($infosMember['ville_naiss']);
 					$this->birthplaceCodePostal = $infosMember['code_postal_naiss'];
-					$this->city = $infosMember['ville'];
+					$this->city = html_entity_decode($infosMember['ville']);
 					$this->codePostal = $infosMember['code_postal'];
-					$this->streetName = $infosMember['nom_rue'];
+					$this->streetName = html_entity_decode($infosMember['nom_rue']);
 					$this->streetNumber = $infosMember['num_rue'];
-					$this->nomResp = $infosMember['nom_resp'];				
+					$this->nomResp = html_entity_decode($infosMember['nom_resp']);				
 					$this->phoneNumber = $infosMember['num_tel_resp'];
 					$this->licencie = $infosMember['licencie'];
 					$this->num_licence = $infosMember['num_licence'];

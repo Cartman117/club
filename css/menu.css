@@ -42,6 +42,17 @@
 	cursor:pointer;
 }
 
+#logmenu
+{
+  float:right;
+  margin-top:-25px;
+}
+
+#logmenu li
+{
+  display:inline;
+  margin-right:10px;
+}
 /* Premiers li */
 #menu .container li, #menuEquipes .container li
 {  

@@ -33,6 +33,18 @@ $templateparams = $app->getTemplate(true)->params;
 		<?php	if($this->countModules('club-login')) : ?>
             <div id="account">
             <jdoc:include type="modules" name="club-login" style="none" />
+        <?php
+        	$user = JFactory::getUser();
+			$groups = JUserHelper::getUserGroups($user->id);
+			if(isset($groups[8]) && $groups[8]==8)
+			{	if($this->countModules('club-logmenu')) :?>
+				<div id="logmenu">	
+                    <jdoc:include type="modules" name="club-logmenu" style="container" />
+				</div>
+		<?php 
+				endif; 
+			}
+		?>
             </div>
         <?php endif; ?>
 		</div>

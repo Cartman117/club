@@ -26,10 +26,10 @@
 	$mainframe->initialise();
 	
 	$user = JFactory::getUser();
-	jimport( 'joomla.user.helper' );
+	jimport('joomla.user.helper');
 	$groups = JUserHelper::getUserGroups($user->id);
 	
-	if (!isset($groups[8]) || $groups[8]!=8)
+	if(!isset($groups[8]) || $groups[8]!=8)
 	{
 		Message::showInformationMessage("Vous ne possédez pas les droits nécessaires pour accèder à cette page ou n'êtes pas connecté(e).");
 		die();
@@ -90,8 +90,8 @@
 		while($results = mysqli_fetch_assoc($request))
 		{
 			echo"<tr>
-					<td>".$results['nom']."</td>
-					<td>".$results['prenom']."</td>
+					<td>".html_entity_decode($results['nom'])."</td>
+					<td>".html_entity_decode($results['prenom'])."</td>
 					<td>".$results['date_naiss']."</td>
 					<td><form action=\"\" method=\"post\">
 						<input type=\"hidden\" value=\"".$results['id_inscrit']."\" name=\"id\"/>
