@@ -26,17 +26,25 @@
 	
 	$user = JFactory::getUser();
 	jimport('joomla.user.helper');
+	
+	$connexionDatabase = Database::getInstance();
 	if ($user->guest != 1)
 	{
 		$member = TRUE;
-		$m = new Member($user->id);
-		$nomForm = $m->getNom();
-		$prenomForm = $m->getPrenom();
-		$phoneForm = $m->getNumTel();
-		$numStreetForm = $m->getNumRue();
-		$nameStreetForm = $m->getNomRue();
-		$cityForm = $m->getVille();
-		$postalCodeForm = $m->getCodePostal();
+		$id_inscrit = mysqli_fetch_assoc($connexionDatabase->selectDb(array("club_inscrit"), array("id_inscrit"), "id_compte = ".$user->id));
+		$id_inscrit = $id_inscrit['id_inscrit'];
+		if($id_inscrit != NULL)
+		{
+			$m = new Member($id_inscrit);
+			$nomForm = $m->getNom();
+			$prenomForm = $m->getPrenom();
+			$phoneForm = $m->getNumTel();
+			$numStreetForm = $m->getNumRue();
+			$nameStreetForm = $m->getNomRue();
+			$cityForm = $m->getVille();
+			$postalCodeForm = $m->getCodePostal();
+			Message::showInformationMessage("Certains champs ont été remplis avec vos informations, pour la première option. Cependant veuillez à remplir les derniers champs vides.");
+		}
 	}
 	else
 	{
@@ -50,7 +58,6 @@
 		$postalCodeForm = "";
 	}
 	
-	$connexionDatabase = Database::getInstance();
 	$addTournament = FALSE;
 	if(isset($_POST['registerTournament']))
 	{
@@ -216,7 +223,7 @@
 	}
 	else	
 	{
-		Message::showInformationMessage("Si vous ne vous êtes jamais inscrit à un tournoi, veuillez sélectionner la première option d'inscription. <br/>Si vous vous êtes déjà inscrit, veuillez sélectionner la deuxième.");
+		Message::showInformationMessage("Si vous ne vous êtes jamais inscrit à un tournoi, veuillez sélectionner la première option d'inscription. Si vous vous êtes déjà inscrit, veuillez sélectionner la deuxième.");
 		echo'Option 1 ';
 		Form::addRadioButton("type", "nouveauTournoi", "afficheFormulaireNouveauTournoi()");
 		echo' Option 2 ';

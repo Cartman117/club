@@ -15,7 +15,6 @@
 						array("*", "DATE_FORMAT(date_naiss,'%d-%m-%Y') AS date_naiss"), "id_inscrit = ".$id);
 							
 					$infosMember = mysqli_fetch_assoc($infosMember);
-					
 					$this->id = $infosMember['id_inscrit'];
 					$this->name = $infosMember['nom'];
 					$this->firstName = $infosMember['prenom'];
@@ -55,7 +54,7 @@
 		
 		function getPrenom()
 		{
-			return $this->firstName;
+			return $this->name;
 		}
 		
 		function getNom()
