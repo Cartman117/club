@@ -38,87 +38,94 @@
 	{
 		if(!empty($_POST['tournoi']))
 		{
-			
-			if(verifyName($_POST['prenom']) && verifyName($_POST['nom']))
+			$mail = $_POST['mail'];
+			if(filter_var($mail, FILTER_VALIDATE_EMAIL))
 			{
-				$jourNaissance = $_POST['jourNaissance'];
-				$moisNaissance = $_POST['moisNaissance'];
-				$anneeNaissance = $_POST['anneeNaissance'];
-				if(preg_match("/^[0-9]{1,2}/", $jourNaissance) && preg_match("/[0-9]{4}/", $anneeNaissance) && $jourNaissance <= 28)
+				if(verifyName($_POST['prenom']) && verifyName($_POST['nom']))
 				{
-					$dateNaissance = new DateTime($anneeNaissance."-".$moisNaissance."-".$jourNaissance);
-					if(verifyPhone($_POST['numero']))
+					$jourNaissance = $_POST['jourNaissance'];
+					$moisNaissance = $_POST['moisNaissance'];
+					$anneeNaissance = $_POST['anneeNaissance'];
+					if(preg_match("/^[0-9]{1,2}/", $jourNaissance) && preg_match("/[0-9]{4}/", $anneeNaissance) && $jourNaissance <= 28)
 					{
-						if(verifyAdress($_POST['numRue'], $_POST['nomRue'], $_POST['codePostal'], $_POST['ville']))
+						$dateNaissance = new DateTime($anneeNaissance."-".$moisNaissance."-".$jourNaissance);
+						if(verifyPhone($_POST['numero']))
 						{
-							if($_POST['licencie'] == 1 && verifyLicence($_POST['numLicence']) && verifyText($_POST['club']))
+							if(verifyAdress($_POST['numRue'], $_POST['nomRue'], $_POST['codePostal'], $_POST['ville']))
 							{
-								$valueArray =  array($_POST['nom'], $_POST['prenom'],
-											$dateNaissance->format("Y-m-d"), $_POST['numero'], 
-											$_POST['ville'], $_POST['codePostal'],
-											$_POST['nomRue'], $_POST['numRue'], $_POST['mail'], 1,
-											$_POST['club'], $_POST['numLicence'], $_POST['sexe']);
-											
-								$valueColumn = NULL;								
-							}
-							else
-							{	
-								if($_POST['licencie'] == 0)
+								if($_POST['licencie'] == 1 && verifyLicence($_POST['numLicence']) && verifyText($_POST['club']))
 								{
 									$valueArray =  array($_POST['nom'], $_POST['prenom'],
-											$dateNaissance->format("Y-m-d"), $_POST['numero'], 
-											$_POST['ville'], $_POST['codePostal'],
-											$_POST['nomRue'], $_POST['numRue'], $_POST['mail'], 0, $_POST['sexe']);
-											
+												$dateNaissance->format("Y-m-d"), $_POST['numero'], 
+												$_POST['ville'], $_POST['codePostal'],
+												$_POST['nomRue'], $_POST['numRue'], $_POST['mail'], 1,
+												$_POST['club'], $_POST['numLicence'], $_POST['sexe']);
+												
 									$valueColumn = array("nom", "prenom", "date_naiss", "num_tel_resp",
-											"ville", "code_postal", "nom_rue", "num_rue", 
-											"mail", "licencie", "sexe");
+												"ville", "code_postal", "nom_rue", "num_rue", 
+												"mail", "licencie","club","num_licence", "sexe");								
 								}
 								else
-									$valueArray = NULL;
-							}
-							if($valueArray != NULL)
-							{
-								try
-								{
-									$success = $connexionDatabase->insertDb("club_inscrit_pour_tournoi", $valueColumn, $valueArray);
-									$lastId = $connexionDatabase->lastCreatedId();
-									if(!$success)
-										throw new Exception();
-									else
+								{	
+									if($_POST['licencie'] == 0)
 									{
-										Message::showSuccessMessage("Votre inscription au tournoi s'est effectué correctement.");
-										foreach($_POST['tournoi'] as &$value)
+										$valueArray =  array($_POST['nom'], $_POST['prenom'],
+												$dateNaissance->format("Y-m-d"), $_POST['numero'], 
+												$_POST['ville'], $_POST['codePostal'],
+												$_POST['nomRue'], $_POST['numRue'], $_POST['mail'], 0, $_POST['sexe']);
+												
+										$valueColumn = array("nom", "prenom", "date_naiss", "num_tel_resp",
+												"ville", "code_postal", "nom_rue", "num_rue", 
+												"mail", "licencie", "sexe");
+									}
+									else
+										$valueArray = NULL;
+								}
+								if($valueArray != NULL)
+								{
+									try
+									{
+										$success = $connexionDatabase->insertDb("club_inscrit_pour_tournoi", $valueColumn, $valueArray);
+										$lastId = $connexionDatabase->lastCreatedId();
+										if(!$success)
+											throw new Exception();
+										else
 										{
-											if(is_numeric($value))
+											Message::showSuccessMessage("Votre inscription au tournoi s'est effectué correctement.");
+											foreach($_POST['tournoi'] as &$value)
 											{
-												$success = $connexionDatabase->insertDb("club_inscrit_tournoi", NULL,
-																		 array($lastId,$value));
-												if(!$success)
-													throw new Exception();
+												if(is_numeric($value))
+												{
+													$success = $connexionDatabase->insertDb("club_inscrit_tournoi", NULL,
+																			 array($lastId,$value));
+													if(!$success)
+														throw new Exception();
+												}
 											}
 										}
 									}
+									catch(Exception $e)
+									{
+										Message::showErrorMessage($e);
+									}
 								}
-								catch(Exception $e)
-								{
-									Message::showErrorMessage("Une erreur s'est produite lors de votre inscription aux tournois.<br/>Il est possible que vous ayez déjà utilisé l'adresse mail indiquée. Si c'est le cas nous vous invitons à  choisir l'autre option d'inscription aux tournois.");
-								}
+								else
+									Message::showErrorMessage("Une erreur s'est produite lors de votre inscription au tournoi. Veuillez réessayer.");
 							}
 							else
-								Message::showErrorMessage("Une erreur s'est produite lors de votre inscription au tournoi. Veuillez réessayer.");
+								Message::showErrorMessage("Les données d'adresse que vous avez entré sont incorrects.");
 						}
 						else
-							Message::showErrorMessage("Les données d'adresse que vous avez entré sont incorrects.");
+							Message::showErrorMessage("Le numéro de téléphone que vous avez entré est incorrect.");
 					}
 					else
-						Message::showErrorMessage("Le numéro de téléphone que vous avez entré est incorrect.");
+						Message::showErrorMessage("Votre âge est incorrect.");
 				}
 				else
-					Message::showErrorMessage("Votre âge est incorrect.");
+					Message::showErrorMessage("Votre prénom ou nom sont incorrects.");
 			}
 			else
-				Message::showErrorMessage("Votre prénom ou nom sont incorrects.");
+				Message::showErrorMessage("Votre mail est incorrect.");			
 		}
 		else
 			Message::showErrorMessage("Vous n'avez pas sélectionné de tournois.");
@@ -137,7 +144,7 @@
 				Message::showErrorMessage("Vous ne vous êtes jamais inscrit à un tournoi avec cette adresse mail.");
 		}
 		else
-			Message::showErrorMessage("L'adresse mail est éronnée.");
+			Message::showErrorMessage("Votre mail est incorrect.");
 	}
 	
 	if(isset($_POST['addTournament']) && is_numeric($_POST['id_inscrit']))
@@ -192,9 +199,10 @@
 	else	
 	{
 		Message::showInformationMessage("Si vous ne vous êtes jamais inscrit à un tournoi, veuillez sélectionner la première option d'inscription. <br/>Si vous vous êtes déjà inscrit, veuillez sélectionner la deuxième.");
-		Form::addRadioButton("type", "ajoutTournoi", "afficheFormulaireAjoutTournoi()");
-		echo' sinon cliquez ici ';
+		echo'Option 1 ';
 		Form::addRadioButton("type", "nouveauTournoi", "afficheFormulaireNouveauTournoi()");
+		echo' Option 2 ';
+		Form::addRadioButton("type", "ajoutTournoi", "afficheFormulaireAjoutTournoi()");
 		echo'<div id="ajoutTournoi"><br/>';
 			Form::openForm(NULL, "POST", "formMail");
 			Form::openInput("mail", "text", "Mail utilisé pour les anciennes inscriptions :",NULL,50);

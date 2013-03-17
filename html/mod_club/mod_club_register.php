@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Club - Enregistrement</title>
+<title>Club - Inscription membre</title>
 	<link href="./mod_club.css" rel="stylesheet" type="text/css" />
     <script src="./mod_club_form.js"></script>
 </head>
@@ -173,7 +173,7 @@
 		Form::addRadioButton("formulaire", "mineur", "afficheFormulaireMineur()");
 		echo' ou  majeur ';
 		Form::addRadioButton("formulaire", "majeur", "afficheFormulaireMajeur()");
-		echo'<br/><hr/><div id="mineur">';
+		echo'<br/><hr/><h3>Inscription</h3><div id="mineur">';
 		
 		Form::openForm(NULL, "post");
 		echo'Sexe : Homme ';

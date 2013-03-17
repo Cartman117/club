@@ -35,11 +35,23 @@ select
 	font-size:18px;
 }
 
+table
+{
+	width:100%;
+	text-align:center;
+}
+table td
+{
+	border:1px black dotted;
+}
+
+/* JavaScript */
 #mineur, #majeur, #formulaireTournament,  #nouveauTournoi, #ajoutTournoi
 {
 	display:none;
 }
 
+/* Message */
 .error_message, .info_message, .success_message
 {
 	text-shadow:0px 1px 0px #fff;

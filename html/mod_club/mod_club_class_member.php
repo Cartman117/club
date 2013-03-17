@@ -46,13 +46,10 @@
 			echo"<p><b>".$this->firstName." ".$this->name."</b> est né le ".$this->birthday->format("d/m/Y")." à ".$this->birthplace."(".
 			$this->birthplaceCodePostal.")<br/>";
 			if($this->isMajeur())
-			{
 				echo"Numéro de téléphone : ".$this->phoneNumber;
-			}
 			else
-			{
 				echo"Nom du responsable : ".$this->nomResp."<br/>Numéro de téléphone du responsable : ".$this->phoneNumber;
-			}
+				
 			echo"<br/>Adresse : ".$this->streetNumber.", ".$this->streetName."<br/>".$this->codePostal." ".$this->city."</p>";
 		}
 		

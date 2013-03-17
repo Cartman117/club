@@ -28,7 +28,7 @@
 	
 	function verifyLicence($texte)
 	{
-		return (preg_match("/^[a-zA-Z0-9]+", $texte));
+		return (preg_match("/[a-zA-Z0-9]+/", $texte));
 	}
 	
 	function exportExcel($idTournoi)
